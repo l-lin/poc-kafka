@@ -3,6 +3,7 @@ services:
   # ZOOKEEPERS ------------------------------------------------------------------------------------
   zk1:
     image: confluentinc/cp-zookeeper:5.4.1
+    container_name: zk1
     ports:
       - 12181:2181
     environment:
@@ -12,9 +13,9 @@ services:
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
-
   zk2:
     image: confluentinc/cp-zookeeper:5.4.1
+    container_name: zk2
     ports:
       - 22181:2181
     environment:
@@ -24,9 +25,9 @@ services:
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
-
   zk3:
     image: confluentinc/cp-zookeeper:5.4.1
+    container_name: zk3
     ports:
       - 32181:2181
     environment:
@@ -36,10 +37,10 @@ services:
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
-
   # KAFKAS ----------------------------------------------------------------------------------------
   kafka1:
     image: confluentinc/cp-kafka:5.4.1
+    container_name: kafka1
     ports:
       - 19092:9092
     depends_on:
@@ -52,6 +53,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
   kafka2:
     image: confluentinc/cp-kafka:5.4.1
+    container_name: kafka2
     ports:
       - 29092:9092
     depends_on:
@@ -64,6 +66,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092
   kafka3:
     image: confluentinc/cp-kafka:5.4.1
+    container_name: kafka3
     ports:
       - 39092:9092
     depends_on:
@@ -74,4 +77,32 @@ services:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zk1:2181,zk2:2181,zk3:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:9092
+  # SCHEMA REGISTRY --------------------------------------------------------------------------------
+  schema-registry:
+    image: confluentinc/cp-schema-registry:${CONFLUENT_TAG}
+    container_name: schema-registry
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
+      - kafka1
+      - kafka2
+      - kafka3
+    ports:
+      - 8081:8081
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zk1:2181,zk2:2181,zk3:2181'
+  # HEART BEAT PRODUCER ----------------------------------------------------------------------------
+  heart-beat-producer:
+    image: linlouis/heart-beat-producer
+    container_name: heart-beat-producer
+    depends_on:
+      - schema-registry
+    ports:
+      - 18080:8080
+    command: [
+      "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
+      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081"
+    ]
 
