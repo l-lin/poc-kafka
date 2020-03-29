@@ -14,6 +14,7 @@ import lin.louis.poc.models.HeartBeat;
 @RestController
 @RequestMapping(path = "/heart-beats")
 public class HeartBeatController {
+
 	private final HeartBeatRepository heartBeatRepository;
 
 	public HeartBeatController(HeartBeatRepository heartBeatRepository) {

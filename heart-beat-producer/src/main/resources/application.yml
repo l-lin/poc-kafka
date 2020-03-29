@@ -10,5 +10,11 @@ spring:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
     template:
       default-topic: heart-beats
+  jackson:
+    # ensure the input/output in epoch milli are correctly read/write by Jackson
+    deserialization:
+      READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+    serialization:
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   main:
     banner-mode: OFF
