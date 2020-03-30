@@ -96,3 +96,21 @@ services:
       "--topic.partitions=1",
       "--topic.replicas=3"
     ]
+  # HEART BEAT VALIDATOR ---------------------------------------------------------------------------
+  heart-beat-validator:
+    image: linlouis/heart-beat-validator
+    container_name: heart-beat-validator
+    depends_on:
+      - heart-beat-producer
+    ports:
+      - 8083:8083
+      - 5006:5006 # for debug purpose
+    command: [
+      "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
+      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
+      "--topics.to.valid.partitions=1",
+      "--topics.to.valid.replicas=3",
+      "--topics.to.invalid.partitions=1",
+      "--topics.to.invalid.replicas=3"
+    ]
+

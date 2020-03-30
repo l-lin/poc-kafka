@@ -1,0 +1,43 @@
+spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    properties:
+      schema.registry.url: http://localhost:8081
+    streams:
+      application-id: heart-beat-validator
+      replication-factor: 1
+      # streams properties can be found in org.apache.kafka.clients.streams.StreamsConfig
+      properties:
+        processing.guarantee: exactly_once
+        default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+#    consumer:
+#      # consumer properties can be found in org.apache.kafka.clients.consumer.ConsumerConfig
+#      auto-offset-reset: latest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+#      group-id: heart-beat-validator
+#      commit-log-level: INFO
+#      properties:
+#        specific.avro.reader: true
+  jackson:
+    # ensure the input/output in epoch milli are correctly read/write by Jackson
+    deserialization:
+      READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+    serialization:
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+  main:
+    banner-mode: OFF
+topics:
+  from: heart-beats
+  to:
+    valid:
+      name: heart-beats-valid
+      partitions: 1
+      replicas: 1
+    invalid:
+      name: heart-beats-invalid
+      partitions: 1
+      replicas: 1
+server:
+  port: 8083
