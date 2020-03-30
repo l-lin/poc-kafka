@@ -1,6 +1,6 @@
 FROM openjdk:11.0.6-jre-slim
 
-EXPOSE 8082
+EXPOSE 8080
 EXPOSE 5005
 WORKDIR /opt
 COPY target/heart-beat-producer.jar /opt

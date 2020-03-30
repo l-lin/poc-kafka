@@ -84,18 +84,32 @@ services:
   # HEART BEAT PRODUCER ----------------------------------------------------------------------------
   heart-beat-producer:
     image: linlouis/heart-beat-producer
-    container_name: heart-beat-producer
     depends_on:
       - schema-registry
     ports:
-      - 8082:8082
-      - 5005:5005 # for debug purpose
+      - "18080-18082:8080"
+      - "15005-15007:5005" # for debug purpose
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
       "--topic.partitions=1",
       "--topic.replicas=3"
     ]
+  # LOADBALANCER ----------------------------------------------------------------------------------
+  web:
+    image: nginx:1.17.9-alpine
+    depends_on:
+      - heart-beat-producer
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    # but we can also let docker-compose perform the "load balancing" by letting the nginx in the
+    # network as fizzbuzz apps, then in the upstream servers, just set one server to http://fizzbuzz:3000:
+    #   upstream fizzbuzz {
+    #     server fizzbuzz:3000;
+    #   }
+    # then docker will automatically redirect to the fizzbuzz nodes
   # HEART BEAT VALIDATOR ---------------------------------------------------------------------------
   heart-beat-validator:
     image: linlouis/heart-beat-validator
@@ -103,8 +117,8 @@ services:
     depends_on:
       - heart-beat-producer
     ports:
-      - 8083:8083
-      - 5006:5006 # for debug purpose
+      - 28080:8080
+      - 25005:5005 # for debug purpose
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",

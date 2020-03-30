@@ -39,5 +39,3 @@ topics:
       name: heart-beats-invalid
       partitions: 1
       replicas: 1
-server:
-  port: 8083

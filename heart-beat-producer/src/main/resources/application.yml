@@ -19,5 +19,3 @@ topic:
   name: heart-beats
   partitions: 1
   replicas: 1
-server:
-  port: 8082
