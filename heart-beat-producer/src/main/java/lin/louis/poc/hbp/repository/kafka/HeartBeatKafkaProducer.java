@@ -12,15 +12,18 @@ public class HeartBeatKafkaProducer implements HeartBeatRepository {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private final KafkaTemplate<String, HeartBeat> kafkaTemplate;
+	private final String topicName;
 
-	public HeartBeatKafkaProducer(KafkaTemplate<String, HeartBeat> kafkaTemplate) {
+	private final KafkaTemplate<Long, HeartBeat> kafkaTemplate;
+
+	public HeartBeatKafkaProducer(String topicName, KafkaTemplate<Long, HeartBeat> kafkaTemplate) {
+		this.topicName = topicName;
 		this.kafkaTemplate = kafkaTemplate;
 	}
 
 	@Override
 	public void save(HeartBeat heartBeat) {
-		logger.info("Sending to kafka the following heart beat: '{}'", heartBeat);
-		kafkaTemplate.sendDefault(heartBeat);
+		logger.info("Sending to kafka topic '{}' the following heart beat: '{}'", topicName, heartBeat);
+		kafkaTemplate.send(topicName, heartBeat);
 	}
 }

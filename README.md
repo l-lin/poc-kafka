@@ -22,6 +22,13 @@ http :8081/subjects/heart-beats-value/versions/1
 
 # fetch the most recently registered schema registered under the subject "heart-beats-value"
 http :8081/subjects/heart-beats-value/versions/latest
+
+# consume Avro messages to check what was sent to Kafka:
+docker exec -it schema-registry \
+    /usr/bin/kafka-avro-console-consumer \
+    --bootstrap-server kafka1:9092,kafka2:9092,kafka3:9092 \
+    --topic heart-beats \
+    --from-beginning
 ```
 
 If breaking change, then the schema registry will throw a HTTP 409 and the application will get an error like:
@@ -47,3 +54,8 @@ __Avro__
 - [Avro specifications](https://avro.apache.org/docs/1.8.1/spec.html#schemas)
 - [CodeNotFound Spring Kafka - Apache Avro serializer / deserializer example](https://codenotfound.com/spring-kafka-apache-avro-serializer-deserializer-example.html)
 - [Confluent documentation on schema registry](https://docs.confluent.io/current/schema-registry/schema_registry_tutorial.html)
+
+__KSQL__
+
+- [KSQL workshop](https://github.com/confluentinc/demo-scene/blob/master/ksql-workshop/ksql-workshop.adoc)
+- [ksqDB reference doc](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/select-pull-query/)

@@ -6,10 +6,7 @@ spring:
       schema.registry.url: http://localhost:8081
     producer:
       # producer properties can be found in org.apache.kafka.clients.producer.ProducerConfig
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-    template:
-      default-topic: heart-beats
   jackson:
     # ensure the input/output in epoch milli are correctly read/write by Jackson
     deserialization:
@@ -18,3 +15,9 @@ spring:
       WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   main:
     banner-mode: OFF
+topic:
+  name: heart-beats
+  partitions: 1
+  replicas: 1
+server:
+  port: 8082

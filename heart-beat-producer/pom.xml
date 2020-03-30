@@ -12,6 +12,7 @@
 	<description>Heart beat producer</description>
 
 	<dependencies>
+		<!-- SPRING -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -21,16 +22,20 @@
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>lin.louis.poc</groupId>
-			<artifactId>heart-models</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		<!-- KAFKA -->
 		<dependency>
 			<groupId>io.confluent</groupId>
 			<artifactId>kafka-avro-serializer</artifactId>
 		</dependency>
 
+		<!-- INTERNAL -->
+		<dependency>
+			<groupId>lin.louis.poc</groupId>
+			<artifactId>heart-models</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- TEST -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

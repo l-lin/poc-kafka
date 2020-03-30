@@ -2,10 +2,8 @@ version: '3'
 services:
   # ZOOKEEPERS ------------------------------------------------------------------------------------
   zk1:
-    image: confluentinc/cp-zookeeper:5.4.1
+    image: confluentinc/cp-zookeeper:${CONFLUENT_TAG}
     container_name: zk1
-    ports:
-      - 12181:2181
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -14,10 +12,8 @@ services:
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
   zk2:
-    image: confluentinc/cp-zookeeper:5.4.1
+    image: confluentinc/cp-zookeeper:${CONFLUENT_TAG}
     container_name: zk2
-    ports:
-      - 22181:2181
     environment:
       ZOOKEEPER_SERVER_ID: 2
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -26,10 +22,8 @@ services:
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
   zk3:
-    image: confluentinc/cp-zookeeper:5.4.1
+    image: confluentinc/cp-zookeeper:${CONFLUENT_TAG}
     container_name: zk3
-    ports:
-      - 32181:2181
     environment:
       ZOOKEEPER_SERVER_ID: 3
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -39,10 +33,8 @@ services:
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
   # KAFKAS ----------------------------------------------------------------------------------------
   kafka1:
-    image: confluentinc/cp-kafka:5.4.1
+    image: confluentinc/cp-kafka:${CONFLUENT_TAG}
     container_name: kafka1
-    ports:
-      - 19092:9092
     depends_on:
       - zk1
       - zk2
@@ -52,10 +44,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zk1:2181,zk2:2181,zk3:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
   kafka2:
-    image: confluentinc/cp-kafka:5.4.1
+    image: confluentinc/cp-kafka:${CONFLUENT_TAG}
     container_name: kafka2
-    ports:
-      - 29092:9092
     depends_on:
       - zk1
       - zk2
@@ -65,10 +55,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zk1:2181,zk2:2181,zk3:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092
   kafka3:
-    image: confluentinc/cp-kafka:5.4.1
+    image: confluentinc/cp-kafka:${CONFLUENT_TAG}
     container_name: kafka3
-    ports:
-      - 39092:9092
     depends_on:
       - zk1
       - zk2
@@ -100,9 +88,11 @@ services:
     depends_on:
       - schema-registry
     ports:
-      - 18080:8080
+      - 8082:8082
+      - 5005:5005 # for debug purpose
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
-      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081"
+      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
+      "--topic.partitions=1",
+      "--topic.replicas=3"
     ]
-
