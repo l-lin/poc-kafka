@@ -18,6 +18,13 @@ import lin.louis.poc.models.HeartBeat;
 @Configuration
 @EnableKafkaStreams
 public class HeartBeatValidatorConfig {
+
+	@Bean
+	@ConfigurationProperties(prefix = "heart-beat")
+	HeartBeatProperties heartBeatProperties() {
+		return new HeartBeatProperties();
+	}
+
 	@Bean
 	@ConfigurationProperties(prefix = "topics")
 	TopicsProperties topicProperties() {
@@ -43,11 +50,17 @@ public class HeartBeatValidatorConfig {
 	}
 
 	@Bean
-	KStream<Long, HeartBeat> kStream(StreamsBuilder streamsBuilder, TopicsProperties topicsProperties) {
+	KStream<Long, HeartBeat> kStream(StreamsBuilder streamsBuilder,
+			HeartBeatProperties heartBeatProperties,
+			TopicsProperties topicsProperties) {
 		KStream<Long, HeartBeat> stream = streamsBuilder.stream(topicsProperties.getFrom());
 		stream.print(Printed.toSysOut());
 		return new KafkaStreamBrancher<Long, HeartBeat>()
-				.branch(new ValidHeartBeatPredicate(), kStream -> kStream.to(topicsProperties.getTo().getValid().getName()))
+				.branch(new ValidHeartBeatPredicate(
+								heartBeatProperties.getHri().getMin(),
+								heartBeatProperties.getHri().getMax()
+						),
+						kStream -> kStream.to(topicsProperties.getTo().getValid().getName()))
 				.defaultBranch(kStream -> kStream.to(topicsProperties.getTo().getInvalid().getName()))
 				.onTopOf(stream);
 	}

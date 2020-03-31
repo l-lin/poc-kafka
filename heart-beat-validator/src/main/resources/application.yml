@@ -11,15 +11,6 @@ spring:
       properties:
         processing.guarantee: exactly_once
         default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
-#    consumer:
-#      # consumer properties can be found in org.apache.kafka.clients.consumer.ConsumerConfig
-#      auto-offset-reset: latest
-#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-#      group-id: heart-beat-validator
-#      commit-log-level: INFO
-#      properties:
-#        specific.avro.reader: true
   jackson:
     # ensure the input/output in epoch milli are correctly read/write by Jackson
     deserialization:
@@ -39,3 +30,7 @@ topics:
       name: heart-beats-invalid
       partitions: 1
       replicas: 1
+heart-beat:
+  hri:
+    min: 0
+    max: 250

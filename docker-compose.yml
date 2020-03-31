@@ -104,12 +104,6 @@ services:
       - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-    # but we can also let docker-compose perform the "load balancing" by letting the nginx in the
-    # network as fizzbuzz apps, then in the upstream servers, just set one server to http://fizzbuzz:3000:
-    #   upstream fizzbuzz {
-    #     server fizzbuzz:3000;
-    #   }
-    # then docker will automatically redirect to the fizzbuzz nodes
   # HEART BEAT VALIDATOR ---------------------------------------------------------------------------
   heart-beat-validator:
     image: linlouis/heart-beat-validator
