@@ -38,7 +38,7 @@ io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException: Sc
  code: 409
 ```
 
-More information by [Confluent on schema evolution and compatility](https://docs.confluent.io/current/schema-registry/schema_registry_tutorial.html#schema-evolution-and-compatibility).
+More information by [Confluent on schema evolution and compatibility](https://docs.confluent.io/current/schema-registry/schema_registry_tutorial.html#schema-evolution-and-compatibility).
 
 ## Resources
 
