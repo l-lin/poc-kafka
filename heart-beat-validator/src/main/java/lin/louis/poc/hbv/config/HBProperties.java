@@ -1,6 +1,6 @@
 package lin.louis.poc.hbv.config;
 
-public class HeartBeatProperties {
+public class HBProperties {
 
 	private Hri hri = new Hri();
 

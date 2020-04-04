@@ -34,6 +34,8 @@
 
 		<avro.version>1.9.2</avro.version>
 		<confluent.version>5.4.1</confluent.version>
+		<kafka.version>2.4.1</kafka.version>
+		<fluent-kafka-streams-test.version>2.1.0</fluent-kafka-streams-test.version>
 		<dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
 	</properties>
 
@@ -59,6 +61,19 @@
 				<groupId>io.confluent</groupId>
 				<artifactId>kafka-streams-avro-serde</artifactId>
 				<version>${confluent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.bakdata.fluent-kafka-streams-tests</groupId>
+				<artifactId>schema-registry-mock-junit5</artifactId>
+				<version>${fluent-kafka-streams-test.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.bakdata.fluent-kafka-streams-tests</groupId>
+				<artifactId>fluent-kafka-streams-tests-junit5</artifactId>
+				<version>${fluent-kafka-streams-test.version}</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

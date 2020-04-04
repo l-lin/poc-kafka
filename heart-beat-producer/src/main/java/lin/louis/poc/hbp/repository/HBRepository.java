@@ -3,6 +3,6 @@ package lin.louis.poc.hbp.repository;
 import lin.louis.poc.models.HeartBeat;
 
 
-public interface HeartBeatRepository {
+public interface HBRepository {
 	void save(HeartBeat heartBeat);
 }

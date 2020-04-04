@@ -6,7 +6,8 @@ spring:
       schema.registry.url: http://localhost:8081
     producer:
       # producer properties can be found in org.apache.kafka.clients.producer.ProducerConfig
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
   jackson:
     # ensure the input/output in epoch milli are correctly read/write by Jackson
     deserialization:
@@ -19,3 +20,5 @@ topic:
   name: heart-beats
   partitions: 1
   replicas: 1
+server:
+  port: 8180

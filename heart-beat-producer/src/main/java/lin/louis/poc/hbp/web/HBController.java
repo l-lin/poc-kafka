@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lin.louis.poc.hbp.dto.HeartBeatDTO;
-import lin.louis.poc.hbp.repository.HeartBeatRepository;
+import lin.louis.poc.hbp.repository.HBRepository;
 import lin.louis.poc.models.HeartBeat;
 
 
 @RestController
 @RequestMapping(path = "/heart-beats")
-public class HeartBeatController {
+public class HBController {
 
-	private final HeartBeatRepository heartBeatRepository;
+	private final HBRepository HBRepository;
 
-	public HeartBeatController(HeartBeatRepository heartBeatRepository) {
-		this.heartBeatRepository = heartBeatRepository;
+	public HBController(HBRepository HBRepository) {
+		this.HBRepository = HBRepository;
 	}
 
 	@PostMapping
@@ -33,6 +33,6 @@ public class HeartBeatController {
 				.setQrs(heartBeatDTO.getQrs())
 				.setTimestamp(Instant.now())
 				.build();
-		heartBeatRepository.save(heartBeat);
+		HBRepository.save(heartBeat);
 	}
 }

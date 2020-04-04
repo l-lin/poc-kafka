@@ -1,13 +1,14 @@
-package lin.louis.poc.hbv;
+package lin.louis.poc.hbp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
-public class HeartBeatValidatorApplication {
+public class HBProducerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HeartBeatValidatorApplication.class, args);
+		SpringApplication.run(HBProducerApplication.class, args);
 	}
 
 }

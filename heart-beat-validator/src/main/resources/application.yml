@@ -9,8 +9,7 @@ spring:
       replication-factor: 1
       # streams properties can be found in org.apache.kafka.clients.streams.StreamsConfig
       properties:
-        # "exactly-once" processing requires a cluster of at least three brokers by default
-        processing.guarantee: exactly_once
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
         default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
   jackson:
     # ensure the input/output in epoch milli are correctly read/write by Jackson
@@ -39,3 +38,5 @@ logging:
   level:
     # to have the topology of the stream described in the log at the start of the app
     org.springframework.kafka.config.StreamsBuilderFactoryBean: DEBUG
+server:
+  port: 8280

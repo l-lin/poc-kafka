@@ -81,20 +81,6 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zk1:2181,zk2:2181,zk3:2181'
-  # HEART BEAT PRODUCER ----------------------------------------------------------------------------
-  heart-beat-producer:
-    image: linlouis/heart-beat-producer
-    depends_on:
-      - schema-registry
-    ports:
-      - "18080-18082:8080"
-      - "15005-15007:5005" # for debug purpose
-    command: [
-      "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
-      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
-      "--topic.partitions=1",
-      "--topic.replicas=3"
-    ]
   # LOADBALANCER ----------------------------------------------------------------------------------
   web:
     image: nginx:1.17.9-alpine
@@ -104,6 +90,19 @@ services:
       - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+  # HEART BEAT PRODUCER ----------------------------------------------------------------------------
+  heart-beat-producer:
+    image: linlouis/heart-beat-producer
+    depends_on:
+      - schema-registry
+    ports:
+      - "8180-8189:8180"
+    command: [
+      "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
+      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
+      "--topic.partitions=1",
+      "--topic.replicas=3"
+    ]
   # HEART BEAT VALIDATOR ---------------------------------------------------------------------------
   heart-beat-validator:
     image: linlouis/heart-beat-validator
@@ -111,11 +110,12 @@ services:
     depends_on:
       - heart-beat-producer
     ports:
-      - 28080:8080
-      - 25005:5005 # for debug purpose
+      - 8280:8280
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
+      # "exactly-once" processing requires a cluster of at least three brokers by default
+      "--spring.kafka.streams.properties.processing.guarantee=exactly_once",
       "--topics.to.valid.partitions=1",
       "--topics.to.valid.replicas=3",
       "--topics.to.invalid.partitions=1",

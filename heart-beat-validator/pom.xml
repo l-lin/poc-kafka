@@ -56,6 +56,16 @@
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.bakdata.fluent-kafka-streams-tests</groupId>
+			<artifactId>schema-registry-mock-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.bakdata.fluent-kafka-streams-tests</groupId>
+			<artifactId>fluent-kafka-streams-tests-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

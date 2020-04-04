@@ -11,6 +11,14 @@ public class HeartBeatDTO {
 
 	private HeartBeatQRS qrs;
 
+	public HeartBeatDTO() {}
+
+	public HeartBeatDTO(long userId, int hri, HeartBeatQRS qrs) {
+		this.userId = userId;
+		this.hri = hri;
+		this.qrs = qrs;
+	}
+
 	public long getUserId() {
 		return userId;
 	}

@@ -1,0 +1,9 @@
+{"namespace": "lin.louis.poc.models",
+  "name": "HeartRate",
+  "type": "record",
+  "fields": [
+    {"name": "userId", "type": "long", "doc": "User ID of the heart beat"},
+    {"name": "value", "type": "double", "doc": "Heart rate value"},
+    {"name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}, "doc": "Epoch timestamp of heart beat"}
+  ]
+}

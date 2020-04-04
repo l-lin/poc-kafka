@@ -57,7 +57,9 @@
 					</schemaRegistryUrls>
 					<subjects>
 						<heart-beats-value>${project.basedir}/src/main/resources/avro/HeartBeat.avsc</heart-beats-value>
+						<heart-rates-value>${project.basedir}/src/main/resources/avro/HeartRate.avsc</heart-rates-value>
 					</subjects>
+					<outputDirectory/>
 				</configuration>
 			</plugin>
 		</plugins>

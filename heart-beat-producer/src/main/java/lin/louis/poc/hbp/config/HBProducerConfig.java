@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaTemplate;
 
-import lin.louis.poc.hbp.repository.HeartBeatRepository;
-import lin.louis.poc.hbp.repository.kafka.HeartBeatKafkaProducer;
+import lin.louis.poc.hbp.repository.HBRepository;
+import lin.louis.poc.hbp.repository.kafka.HBKafkaProducer;
 import lin.louis.poc.models.HeartBeat;
 
 
 @Configuration
-public class HeartBeatProducerConfig {
+public class HBProducerConfig {
 
 	@Bean
 	@ConfigurationProperties(prefix = "topic")
@@ -26,11 +26,12 @@ public class HeartBeatProducerConfig {
 		return TopicBuilder.name(topicProperties.getName())
 				.partitions(topicProperties.getPartitions())
 				.replicas(topicProperties.getReplicas())
+				.compact()
 				.build();
 	}
 
 	@Bean
-	HeartBeatRepository heartBeatRepository(TopicProperties topicProperties, KafkaTemplate<Long, HeartBeat> kafkaTemplate) {
-		return new HeartBeatKafkaProducer(topicProperties.getName(), kafkaTemplate);
+	HBRepository heartBeatRepository(TopicProperties topicProperties, KafkaTemplate<Long, HeartBeat> kafkaTemplate) {
+		return new HBKafkaProducer(topicProperties.getName(), kafkaTemplate);
 	}
 }
