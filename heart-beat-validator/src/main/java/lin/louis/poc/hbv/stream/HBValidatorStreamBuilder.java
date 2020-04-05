@@ -50,7 +50,7 @@ public class HBValidatorStreamBuilder {
 
 	public KStream<Long, HeartBeat> buildKStream() {
 		var from = streamsBuilder.<Long, HeartBeat>stream(topicFrom)
-				.peek((key, heartBeat) -> logger.info("reading heart beat with key '{}': '{}'", key, heartBeat));
+				.peek((key, heartBeat) -> logger.info("reading heart beat with key {}: {}", key, heartBeat));
 		from.print(Printed.toSysOut());
 		return new KafkaStreamBrancher<Long, HeartBeat>()
 				.branch(predicate, kStream -> kStream.to(topicValidTo))

@@ -1,0 +1,39 @@
+spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    properties:
+      schema.registry.url: http://localhost:8081
+    streams:
+      application-id: heart-rate-computor
+      replication-factor: 1
+      # streams properties can be found in org.apache.kafka.clients.streams.StreamsConfig
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+        default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+  jackson:
+    # ensure the input/output in epoch milli are correctly read/write by Jackson
+    deserialization:
+      READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+    serialization:
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+  main:
+    banner-mode: OFF
+topics:
+  from: heart-beats-valid
+  to:
+    name: heart-rates
+    partitions: 1
+    replicas: 1
+heart-rate:
+  gap-duration: 5s
+  nb-heart-beats: 8
+  hri:
+    min: 0
+    max: 250
+logging:
+  level:
+    # to have the topology of the stream described in the log at the start of the app
+    org.springframework.kafka.config.StreamsBuilderFactoryBean: DEBUG
+server:
+  port: 8380

@@ -100,7 +100,7 @@ services:
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
-      "--topic.partitions=1",
+      "--topic.partitions=3",
       "--topic.replicas=3"
     ]
   # HEART BEAT VALIDATOR ---------------------------------------------------------------------------
@@ -116,9 +116,25 @@ services:
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
       # "exactly-once" processing requires a cluster of at least three brokers by default
       "--spring.kafka.streams.properties.processing.guarantee=exactly_once",
-      "--topics.to.valid.partitions=1",
+      "--topics.to.valid.partitions=3",
       "--topics.to.valid.replicas=3",
-      "--topics.to.invalid.partitions=1",
+      "--topics.to.invalid.partitions=3",
       "--topics.to.invalid.replicas=3"
+    ]
+  # HEART BEAT COMPUTOR ----------------------------------------------------------------------------
+  heart-rate-computor:
+    image: linlouis/heart-rate-computor
+    container_name: heart-rate-computor
+    depends_on:
+      - heart-beat-validator
+    ports:
+      - 8380:8380
+    command: [
+      "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
+      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
+      # "exactly-once" processing requires a cluster of at least three brokers by default
+      "--spring.kafka.streams.properties.processing.guarantee=exactly_once",
+      "--topics.to.partitions=3",
+      "--topics.to.replicas=3"
     ]
 

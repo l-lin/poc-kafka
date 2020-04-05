@@ -19,12 +19,6 @@ import lin.louis.poc.models.HeartBeat;
 public class HBValidatorConfig {
 
 	@Bean
-	@ConfigurationProperties(prefix = "heart-beat")
-	HBProperties heartBeatProperties() {
-		return new HBProperties();
-	}
-
-	@Bean
 	@ConfigurationProperties(prefix = "topics")
 	TopicsProperties topicProperties() {
 		return new TopicsProperties();
@@ -34,31 +28,29 @@ public class HBValidatorConfig {
 	NewTopic topicHeartBeatsValid(TopicsProperties topicsProperties) {
 		TopicsProperties.Topic t = topicsProperties.getTo().getValid();
 		return TopicBuilder.name(t.getName())
-				.partitions(t.getPartitions())
-				.replicas(t.getReplicas())
-				.build();
+						   .partitions(t.getPartitions())
+						   .replicas(t.getReplicas())
+						   .build();
 	}
 
 	@Bean
 	NewTopic topicHeartBeatsInvalid(TopicsProperties topicsProperties) {
 		TopicsProperties.Topic t = topicsProperties.getTo().getInvalid();
 		return TopicBuilder.name(t.getName())
-				.partitions(t.getPartitions())
-				.replicas(t.getReplicas())
-				.build();
+						   .partitions(t.getPartitions())
+						   .replicas(t.getReplicas())
+						   .build();
 	}
 
 	@Bean
-	KStream<Long, HeartBeat> kStream(StreamsBuilder streamsBuilder,
-			HBProperties hbProperties,
-			TopicsProperties topicsProperties) {
+	KStream<Long, HeartBeat> kStream(StreamsBuilder streamsBuilder, TopicsProperties topicsProperties) {
 		return HBValidatorStreamBuilder.withStreamsBuilder(streamsBuilder)
 									   .from(topicsProperties.getFrom())
-									   .to(topicsProperties.getTo().getValid().getName(), topicsProperties.getTo().getInvalid().getName())
-									   .withPredicate(new ValidHBPredicate(
-											   hbProperties.getHri().getMin(),
-											   hbProperties.getHri().getMax()
-				))
+									   .to(
+											   topicsProperties.getTo().getValid().getName(),
+											   topicsProperties.getTo().getInvalid().getName()
+									   )
+									   .withPredicate(new ValidHBPredicate())
 									   .buildKStream();
 	}
 }

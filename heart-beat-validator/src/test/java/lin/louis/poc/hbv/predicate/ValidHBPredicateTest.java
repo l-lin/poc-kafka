@@ -17,23 +17,18 @@ class ValidHBPredicateTest {
 
 	private static final long USER_ID = 123L;
 
-	private static final int HRI_MIN = 0;
-
-	private static final int HRI_MAX = 250;
-
-	private Predicate<Long, HeartBeat> predicate = new ValidHBPredicate(HRI_MIN, HRI_MAX);
+	private Predicate<Long, HeartBeat> predicate = new ValidHBPredicate();
 
 	@Test
 	void test_shouldValidate_whenHeartBeatHasValidValues() {
 		assertAll("should validate when heart beat has valid values", () -> {
 			assertTrue(predicate.test(USER_ID, new HeartBeat(USER_ID, 100, HeartBeatQRS.A, Instant.now())));
-			assertTrue(predicate.test(USER_ID, new HeartBeat(USER_ID, HRI_MIN, HeartBeatQRS.A, Instant.now())));
-			assertTrue(predicate.test(USER_ID, new HeartBeat(USER_ID, HRI_MAX, HeartBeatQRS.A, Instant.now())));
+			assertTrue(predicate.test(USER_ID, new HeartBeat(USER_ID, 0, HeartBeatQRS.A, Instant.now())));
+			assertTrue(predicate.test(USER_ID, new HeartBeat(USER_ID, 250, HeartBeatQRS.A, Instant.now())));
 		});
 		assertAll("should not validate when heart beat has bad values", () -> {
-			assertFalse(predicate.test(USER_ID, new HeartBeat(USER_ID, 100, HeartBeatQRS.X, Instant.now())));
-			assertFalse(predicate.test(USER_ID, new HeartBeat(USER_ID, -10, HeartBeatQRS.F, Instant.now())));
-			assertFalse(predicate.test(USER_ID, new HeartBeat(USER_ID, 300, HeartBeatQRS.V, Instant.now())));
+			assertFalse(predicate.test(-1L, new HeartBeat(-1L, 100, HeartBeatQRS.X, Instant.now())));
+			assertFalse(predicate.test(USER_ID, null));
 		});
 	}
 }

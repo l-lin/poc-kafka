@@ -2,8 +2,14 @@ package lin.louis.poc.hbv.config;
 
 public class TopicsProperties {
 
+	/**
+	 * Topic name to read from
+	 */
 	private String from;
 
+	/**
+	 * Topics to send to
+	 */
 	private To to = new To();
 
 	public String getFrom() {
@@ -24,8 +30,14 @@ public class TopicsProperties {
 
 	public static class To {
 
+		/**
+		 * Topic to send valid heart beats
+		 */
 		private Topic valid;
 
+		/**
+		 * Topic to send invalid heart beats
+		 */
 		private Topic invalid;
 
 		public Topic getValid() {
@@ -47,10 +59,19 @@ public class TopicsProperties {
 
 	public static class Topic {
 
+		/**
+		 * Topic name
+		 */
 		private String name;
 
+		/**
+		 * Number of partitions for this topic
+		 */
 		private int partitions;
 
+		/**
+		 * Number of replicas for this topic
+		 */
 		private int replicas;
 
 		public String getName() {

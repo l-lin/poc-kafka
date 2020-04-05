@@ -1,8 +1,7 @@
 # heart-models
 
-Common library that contains the [Avro](https://avro.apache.org/docs/1.8.1/spec.html#schemas) schemas of all models required for this project.
-
-## Getting started
+> Common library that contains the [Avro](https://avro.apache.org/docs/1.8.1/spec.html#schemas) schemas of all models
+> required for this project.
 
 ```bash
 # generate class files (will be located under target/generated-sources folder)

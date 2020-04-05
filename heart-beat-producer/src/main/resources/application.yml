@@ -7,7 +7,7 @@ spring:
     producer:
       # producer properties can be found in org.apache.kafka.clients.producer.ProducerConfig
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
-      value-serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
   jackson:
     # ensure the input/output in epoch milli are correctly read/write by Jackson
     deserialization:
@@ -16,9 +16,11 @@ spring:
       WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   main:
     banner-mode: OFF
+server:
+  port: 8180
+
+# application specific
 topic:
   name: heart-beats
   partitions: 1
   replicas: 1
-server:
-  port: 8180

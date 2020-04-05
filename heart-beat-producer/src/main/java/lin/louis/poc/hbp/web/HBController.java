@@ -28,11 +28,11 @@ public class HBController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void create(@RequestBody HeartBeatDTO heartBeatDTO) {
 		var heartBeat = HeartBeat.newBuilder()
-				.setUserId(heartBeatDTO.getUserId())
-				.setHri(heartBeatDTO.getHri())
-				.setQrs(heartBeatDTO.getQrs())
-				.setTimestamp(Instant.now())
-				.build();
+								 .setUserId(heartBeatDTO.getUserId())
+								 .setHri(heartBeatDTO.getHri())
+								 .setQrs(heartBeatDTO.getQrs())
+								 .setTimestamp(Instant.now())
+								 .build();
 		HBRepository.save(heartBeat);
 	}
 }

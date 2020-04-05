@@ -24,10 +24,10 @@ public class HBProducerConfig {
 	@Bean
 	NewTopic newTopic(TopicProperties topicProperties) {
 		return TopicBuilder.name(topicProperties.getName())
-				.partitions(topicProperties.getPartitions())
-				.replicas(topicProperties.getReplicas())
-				.compact()
-				.build();
+						   .partitions(topicProperties.getPartitions())
+						   .replicas(topicProperties.getReplicas())
+						   .compact()
+						   .build();
 	}
 
 	@Bean

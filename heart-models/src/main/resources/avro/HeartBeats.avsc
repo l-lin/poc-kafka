@@ -2,16 +2,25 @@
   {"namespace": "lin.louis.poc.models",
     "name": "HeartBeatQRS",
     "type": "enum",
+    "doc": "Event describing the activity of the heart: V: premature ventricular heartbeat - N: normal heartbeat - F: fusion heartbeat - P: paced heartbeat - X: invalid heartbeat",
     "symbols": ["A", "V", "N", "F", "P", "X"]
   },
   {"namespace": "lin.louis.poc.models",
-    "type": "record",
     "name": "HeartBeat",
+    "type": "record",
     "fields": [
       {"name": "userId", "type": "long", "doc": "User ID of the heart beat"},
       {"name": "hri", "type": "int", "doc": "Heart rate instant value"},
       {"name": "qrs", "type": "lin.louis.poc.models.HeartBeatQRS", "doc": "Event describing heart's activity"},
       {"name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}, "doc": "Epoch timestamp of heart beat"}
+    ]
+  },
+  {"namespace": "lin.louis.poc.models",
+    "name": "HeartBeats",
+    "type": "record",
+    "fields": [
+      {"name": "userId", "type": "long", "doc": "User ID of the heart beats"},
+      {"name": "heartBeats", "type": {"type": "array", "items": "lin.louis.poc.models.HeartBeat"}, "doc": "The representation of multiple heart beats of a user"}
     ]
   }
 ]

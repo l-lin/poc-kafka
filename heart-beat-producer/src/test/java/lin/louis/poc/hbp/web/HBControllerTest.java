@@ -35,6 +35,6 @@ class HBControllerTest {
 		var requestBody = objectMapper.writeValueAsString(heartBeatDTO);
 
 		mockMvc.perform(post("/heart-beats").contentType(MediaType.APPLICATION_JSON).content(requestBody))
-				.andExpect(status().is(HttpStatus.NO_CONTENT.value()));
+			   .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 	}
 }

@@ -33,9 +33,11 @@
 		<java.version>11</java.version>
 
 		<avro.version>1.9.2</avro.version>
+		<commons.collections4.version>4.4</commons.collections4.version>
 		<confluent.version>5.4.1</confluent.version>
-		<kafka.version>2.4.1</kafka.version>
 		<fluent-kafka-streams-test.version>2.1.0</fluent-kafka-streams-test.version>
+		<kafka.version>2.4.1</kafka.version>
+
 		<dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
 	</properties>
 
@@ -43,6 +45,7 @@
 		<module>heart-models</module>
 		<module>heart-beat-producer</module>
 		<module>heart-beat-validator</module>
+		<module>heart-rate-computor</module>
 	</modules>
 
 	<dependencyManagement>
@@ -61,6 +64,11 @@
 				<groupId>io.confluent</groupId>
 				<artifactId>kafka-streams-avro-serde</artifactId>
 				<version>${confluent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>${commons.collections4.version}</version>
 			</dependency>
 
 			<dependency>

@@ -1,7 +1,15 @@
 # Example project that uses kafka streams
 
-__TODO__
+## Getting started
+### Build
 
+```bash
+# this will build the maven projects and build the docker images.
+mvn package
+```
+
+### Usage
+ 
 ```bash
 # launch all services
 docker-compose up
@@ -62,6 +70,8 @@ More information by [Confluent on schema evolution and compatibility](https://do
 __Kafka__
 
 - [Confluent on testing streaming application](https://www.confluent.io/blog/stream-processing-part-2-testing-your-streaming-application/)
+- [The internal of Kafka Gitbook](https://jaceklaskowski.gitbooks.io/apache-kafka/)
+- [The internal of Kafka Streams Gitbook](https://jaceklaskowski.gitbooks.io/mastering-kafka-streams/)
 
 __Avro__
 
@@ -70,12 +80,7 @@ __Avro__
 - [CodeNotFound Spring Kafka - Apache Avro serializer / deserializer example](https://codenotfound.com/spring-kafka-apache-avro-serializer-deserializer-example.html)
 - [Confluent documentation on schema registry](https://docs.confluent.io/current/schema-registry/schema_registry_tutorial.html)
 - [Stackoverflow question on testing Kafka consumer with Avro schema](https://stackoverflow.com/questions/57575067/kafka-consumer-unit-test-with-avro-schema-registry-failing)
-- [Bakdata fluent-kafka-streams-test](https://github.com/bakdata/fluent-kafka-streams-tests): Java kafka library for test
-
-__KSQL__
-
-- [KSQL workshop](https://github.com/confluentinc/demo-scene/blob/master/ksql-workshop/ksql-workshop.adoc)
-- [ksqDB reference doc](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/select-pull-query/)
+- [Bakdata fluent-kafka-streams-test to test Kafka streams](https://github.com/bakdata/fluent-kafka-streams-tests)
 
 __Spring Kafka__
 
@@ -83,3 +88,11 @@ __Spring Kafka__
 - [How to transform a batch pipeline into real time one](https://medium.com/@stephane.maarek/how-to-use-apache-kafka-to-transform-a-batch-pipeline-into-a-real-time-one-831b48a6ad85)
 - [Using Apache Kafka and Spring platform to build event-driven microservices](https://gamov.io/workshop/cnfl-pivotal-ord-2020.html#adding-avro-and-confluent-schema-registry-dependencies)
 - [Spring Kafka Avro without registry for unit tests](https://github.com/ivlahek/kafka-avro-without-registry)
+- [Spring Kafka Avro Streams example](https://github.com/gAmUssA/springboot-kafka-avro/blob/master/src/main/java/io/confluent/developer/kafkaworkshop/streams/KafkaStreamsApp.java)
+- [Spring official documentation on Kafka Streams brancher](https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#using-kafkastreamsbrancher)
+- [Spring example to use KafkaStreamBrancher](https://github.com/spring-projects/spring-kafka/blob/v2.3.7.RELEASE/spring-kafka/src/test/java/org/springframework/kafka/streams/KafkaStreamsBranchTests.java#L158-L166)
+
+__KSQL__
+
+- [KSQL workshop](https://github.com/confluentinc/demo-scene/blob/master/ksql-workshop/ksql-workshop.adoc)
+- [ksqDB reference doc](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/select-pull-query/)

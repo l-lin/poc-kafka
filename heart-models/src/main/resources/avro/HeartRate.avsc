@@ -4,6 +4,7 @@
   "fields": [
     {"name": "userId", "type": "long", "doc": "User ID of the heart beat"},
     {"name": "value", "type": "double", "doc": "Heart rate value"},
-    {"name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}, "doc": "Epoch timestamp of heart beat"}
+    {"name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}, "doc": "Epoch timestamp of heart beat"},
+    {"name":  "isReset", "type":  "boolean", "default": false, "doc": "Heart rate is reset if a gap is detected, a QRS type X is detected, HRI is out of range or the new timestamp is prior to the last detected timestamp"}
   ]
 }

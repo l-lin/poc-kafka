@@ -1,6 +1,5 @@
 package lin.louis.poc.hbv.stream;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.Properties;
 
@@ -19,9 +18,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.bakdata.fluent_kafka_streams_tests.junit5.TestTopologyExtension;
 
-import io.confluent.kafka.schemaregistry.client.MockSchemaRegistryClient;
-import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
-import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import lin.louis.poc.hbv.predicate.ValidHBPredicate;
@@ -35,38 +31,29 @@ import lin.louis.poc.models.HeartBeatQRS;
 )
 @ExtendWith(SpringExtension.class)
 class HBValidatorStreamBuilderTest {
-
 	private static final String TOPIC_FROM = "heart-beats";
-
 	private static final String TOPIC_TO_VALID = "heart-beats-valid";
-
 	private static final String TOPIC_TO_INVALID = "heart-beats-invalid";
-
-	@Autowired
-	private EmbeddedKafkaBroker embeddedKafka;
-
 	private final Topology topology = HBValidatorStreamBuilder.withStreamsBuilder(new StreamsBuilder())
 															  .from(TOPIC_FROM)
 															  .to(TOPIC_TO_VALID, TOPIC_TO_INVALID)
-															  .withPredicate(new ValidHBPredicate(
-																	  0,
-																	  250
-															  ))
+															  .withPredicate(new ValidHBPredicate())
 															  .buildTopology();
-
-	private final SchemaRegistryClient schemaRegistryClient = new MockSchemaRegistryClient();
-
+	@Autowired
+	private EmbeddedKafkaBroker embeddedKafka;
 	private TestTopologyExtension<Long, HeartBeat> testTopology;
 
 	@BeforeEach
-	void setUp() throws IOException, RestClientException {
+	void setUp() {
 		testTopology = new TestTopologyExtension<>(topology, buildKafkaProperties(embeddedKafka));
 		testTopology.start();
 	}
 
 	@AfterEach
 	void tearDown() {
-		testTopology.stop();
+		if (testTopology != null) {
+			testTopology.stop();
+		}
 	}
 
 	@Test
@@ -79,9 +66,9 @@ class HBValidatorStreamBuilderTest {
 				new HeartBeat(105L, 5, HeartBeatQRS.P, Instant.now())
 		};
 		var invalidHeartBeats = new HeartBeat[] {
-				new HeartBeat(201L, 190, HeartBeatQRS.X, Instant.now()),
-				new HeartBeat(202L, 390, HeartBeatQRS.A, Instant.now()),
-				new HeartBeat(203L, -19, HeartBeatQRS.F, Instant.now())
+				new HeartBeat(-201L, 190, HeartBeatQRS.X, Instant.now()),
+				new HeartBeat(-202L, 390, HeartBeatQRS.A, Instant.now()),
+				new HeartBeat(-203L, -19, HeartBeatQRS.F, Instant.now())
 		};
 		testTopology.input(TOPIC_FROM)
 					.add(validHeartBeats[0].getUserId(), validHeartBeats[0])
@@ -90,7 +77,7 @@ class HBValidatorStreamBuilderTest {
 					.add(invalidHeartBeats[0].getUserId(), invalidHeartBeats[0])
 					.add(invalidHeartBeats[1].getUserId(), invalidHeartBeats[1])
 					.add(validHeartBeats[3].getUserId(), validHeartBeats[3])
-					.add(invalidHeartBeats[2].getUserId(), invalidHeartBeats[2])
+					.add(invalidHeartBeats[2].getUserId(), null)
 					.add(validHeartBeats[4].getUserId(), validHeartBeats[4]);
 
 		testTopology.streamOutput(TOPIC_TO_VALID)
@@ -98,11 +85,14 @@ class HBValidatorStreamBuilderTest {
 					.expectNextRecord().hasKey(validHeartBeats[1].getUserId()).hasValue(validHeartBeats[1])
 					.expectNextRecord().hasKey(validHeartBeats[2].getUserId()).hasValue(validHeartBeats[2])
 					.expectNextRecord().hasKey(validHeartBeats[3].getUserId()).hasValue(validHeartBeats[3])
-					.expectNextRecord().hasKey(validHeartBeats[4].getUserId()).hasValue(validHeartBeats[4]);
+					.expectNextRecord().hasKey(validHeartBeats[4].getUserId()).hasValue(validHeartBeats[4])
+					.expectNoMoreRecord();
 		testTopology.streamOutput(TOPIC_TO_INVALID)
 					.expectNextRecord().hasKey(invalidHeartBeats[0].getUserId()).hasValue(invalidHeartBeats[0])
 					.expectNextRecord().hasKey(invalidHeartBeats[1].getUserId()).hasValue(invalidHeartBeats[1])
-					.expectNextRecord().hasKey(invalidHeartBeats[2].getUserId()).hasValue(invalidHeartBeats[2]);
+					// can't check null
+					.expectNextRecord().hasKey(invalidHeartBeats[2].getUserId())
+					.expectNoMoreRecord();
 	}
 
 	private Properties buildKafkaProperties(EmbeddedKafkaBroker embeddedKafka) {

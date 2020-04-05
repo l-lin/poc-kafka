@@ -19,6 +19,14 @@ spring:
       WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   main:
     banner-mode: OFF
+logging:
+  level:
+    # to have the topology of the stream described in the log at the start of the app
+    org.springframework.kafka.config.StreamsBuilderFactoryBean: DEBUG
+server:
+  port: 8280
+
+# application specific
 topics:
   from: heart-beats
   to:
@@ -30,13 +38,3 @@ topics:
       name: heart-beats-invalid
       partitions: 1
       replicas: 1
-heart-beat:
-  hri:
-    min: 0
-    max: 250
-logging:
-  level:
-    # to have the topology of the stream described in the log at the start of the app
-    org.springframework.kafka.config.StreamsBuilderFactoryBean: DEBUG
-server:
-  port: 8280

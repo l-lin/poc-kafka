@@ -56,7 +56,7 @@
 						<param>http://localhost:8081</param>
 					</schemaRegistryUrls>
 					<subjects>
-						<heart-beats-value>${project.basedir}/src/main/resources/avro/HeartBeat.avsc</heart-beats-value>
+						<heart-beats-value>${project.basedir}/src/main/resources/avro/HeartBeats.avsc</heart-beats-value>
 						<heart-rates-value>${project.basedir}/src/main/resources/avro/HeartRate.avsc</heart-rates-value>
 					</subjects>
 					<outputDirectory/>

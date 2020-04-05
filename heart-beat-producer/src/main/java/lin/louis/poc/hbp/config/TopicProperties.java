@@ -2,10 +2,19 @@ package lin.louis.poc.hbp.config;
 
 public class TopicProperties {
 
+	/**
+	 * Kafka topic name to send to
+	 */
 	private String name;
 
+	/**
+	 * Number of partitions for this topic
+	 */
 	private int partitions;
 
+	/**
+	 * Number of replicas for this topic
+	 */
 	private int replicas;
 
 	public String getName() {
