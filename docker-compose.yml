@@ -84,6 +84,7 @@ services:
   # LOADBALANCER ----------------------------------------------------------------------------------
   web:
     image: nginx:1.17.9-alpine
+    container_name: web
     depends_on:
       - heart-beat-producer
     ports:
@@ -137,4 +138,11 @@ services:
       "--topics.to.partitions=3",
       "--topics.to.replicas=3"
     ]
+  # HEART SMARTWATCH SIMULATOR ---------------------------------------------------------------------
+  heart-smartwatch-simulator:
+    build: ./heart-smartwatch-simulator
+    container_name: heart-smartwatch-simulator
+    depends_on:
+      - heart-beat-producer
+    command: ["--heart-beat-producer", "http://web:80/heart-beats"]
 
