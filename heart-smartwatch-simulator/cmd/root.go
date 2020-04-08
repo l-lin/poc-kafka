@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -74,7 +75,8 @@ func run(cmd *cobra.Command, args []string) {
 			log.Printf("user %d: starting to simulate heartbeats with %d%% failure\n", userID, percent)
 			for {
 				heartbeat.Send(heartBeatProducerURL, r.Build())
-				time.Sleep(1 * time.Second)
+				t := rand.Intn(3) + 1
+				time.Sleep(time.Duration(t) * time.Second)
 			}
 		}(i+1, percent)
 	}
