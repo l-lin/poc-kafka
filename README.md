@@ -1,5 +1,8 @@
 # Example project that uses kafka streams
 
+![Java](https://github.com/l-lin/poc-kafka/workflows/Java/badge.svg)
+![Go](https://github.com/l-lin/poc-kafka/workflows/Go/badge.svg)
+
 ## Getting started
 ### Build
 
