@@ -192,4 +192,8 @@ services:
     container_name: heart-smartwatch-simulator
     depends_on:
       - heart-beat-producer
-    command: ["--heart-beat-producer", "http://web:80/heart-beats"]
+    command: [
+      "--heart-beat-producer", "http://web:80/heart-beats",
+      "--nb-users", "10",
+      "--percent-failures", "0,0,0,0,0,5,5,10,15,50"
+    ]
