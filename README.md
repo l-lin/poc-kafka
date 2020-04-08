@@ -9,16 +9,27 @@ mvn package
 ```
 
 ### Usage
- 
+
+__Production alike__
+
 ```bash
 # launch all services
-docker-compose up
+docker-compose up -d
+# wait until all services are started then setup environment
+./scripts/setup.sh
+```
 
+__Local environment__
 
-# if you want to run apps directly from your IDEA, you can't use the kafka cluster from docker-compose.yml because the
-# domain name configured in Kafka is only available for service in the docker network, which is not possible to hook
-# from IDE launched app. Thus, a docker-compose-local.yml file is here to launch a single kafka instance.
-docker-compose -f docker-compose-local.yml up
+If you want to run apps directly from your IDE, you can't use the kafka cluster from docker-compose.yml because the
+domain name configured in Kafka is only available for service in the docker network, which is not possible to hook
+from IDE launched app. Thus, a `docker-compose-local.yml` file is here to launch a single kafka instance.
+
+```bash
+# launch all services
+docker-compose -f docker-compose-local.yml up -d
+# wait until all services are started then setup environment
+./scripts/setup.sh
 ```
 
 ## Useful commands
@@ -65,6 +76,33 @@ io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException: Sc
 
 More information by [Confluent on schema evolution and compatibility](https://docs.confluent.io/current/schema-registry/schema_registry_tutorial.html#schema-evolution-and-compatibility).
 
+## Kafka connect
+
+```bash
+# list kafka connectors
+http :8082/connectors
+
+# add a new connector
+curl -X "POST" "http://localhost:8082/connectors/" \
+     -H "Content-Type: application/json" \
+     -d '{
+             "name": "heart-rate-connector-sink",
+             "config": {
+                 "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+                 "connection.url": "jdbc:postgresql://db:5432/heart_monitor?applicationName=heart-rate-connector",
+                 "connection.user": "postgres",
+                 "connection.password": "postgres",
+                 "auto.create":"true",
+                 "auto.evolve":"true",
+                 "topics": "heart-rates",
+                 "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+                 "transforms": "ExtractTimestamp",
+                 "transforms.ExtractTimestamp.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+                 "transforms.ExtractTimestamp.timestamp.field" : "extract_ts"
+             }
+     }'
+```
+
 ## Resources
 
 __Kafka__
@@ -72,6 +110,8 @@ __Kafka__
 - [Confluent on testing streaming application](https://www.confluent.io/blog/stream-processing-part-2-testing-your-streaming-application/)
 - [The internal of Kafka Gitbook](https://jaceklaskowski.gitbooks.io/apache-kafka/)
 - [The internal of Kafka Streams Gitbook](https://jaceklaskowski.gitbooks.io/mastering-kafka-streams/)
+- [Example of using Kafka Streams API](https://github.com/abhirockzz/kafka-streams-apis)
+- [Exploring Kafka Streams](https://dev.to/itnext/learn-stream-processing-with-kafka-streams-stateless-operations-1k4h)
 
 __Avro__
 
@@ -91,6 +131,7 @@ __Spring Kafka__
 - [Spring Kafka Avro Streams example](https://github.com/gAmUssA/springboot-kafka-avro/blob/master/src/main/java/io/confluent/developer/kafkaworkshop/streams/KafkaStreamsApp.java)
 - [Spring official documentation on Kafka Streams brancher](https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#using-kafkastreamsbrancher)
 - [Spring example to use KafkaStreamBrancher](https://github.com/spring-projects/spring-kafka/blob/v2.3.7.RELEASE/spring-kafka/src/test/java/org/springframework/kafka/streams/KafkaStreamsBranchTests.java#L158-L166)
+- [Spring tutorial for building interactive web app using websocket](https://spring.io/guides/gs/messaging-stomp-websocket/)
 
 __KSQL__
 

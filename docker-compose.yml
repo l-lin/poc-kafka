@@ -81,6 +81,54 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zk1:2181,zk2:2181,zk3:2181'
+  # POSTGRESQL ------------------------------------------------------------------------------------
+  db:
+    image: postgres:12.2-alpine
+    container_name: db
+    healthcheck:
+      test: psql postgres --command "SELECT 1" -U postgres
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: heart_monitor
+  # KAFKA CONNECT ----------------------------------------------------------------------------------
+  heart-rate-connector:
+    image: confluentinc/cp-kafka-connect:${CONFLUENT_TAG}
+    container_name: heart-rate-connector
+    depends_on:
+      - kafka1
+      - kafka2
+      - kafka3
+      - db
+      - schema-registry
+    ports:
+      - 8082:8082
+    # https://docs.confluent.io/current/installation/docker/config-reference.html#kafka-connect-configuration
+    # https://docs.confluent.io/current/connect/kafka-connect-jdbc/sink-connector/sink_config_options.html
+    environment:
+      CONNECT_REST_PORT: 8082
+      CONNECT_REST_ADVERTISED_HOST_NAME: heart-rate-connector
+      CONNECT_TOPICS: heart-rates
+      # kafka configuration
+      CONNECT_BOOTSTRAP_SERVERS: kafka1:9092,kafka2:9092,kafka3:9092
+      CONNECT_GROUP_ID: heart-rate-connector
+      CONNECT_CONFIG_STORAGE_TOPIC: _heart-rate-connector-config
+      CONNECT_OFFSET_STORAGE_TOPIC: _heart-rate-connector-offset
+      CONNECT_STATUS_STORAGE_TOPIC: _heart-rate-connector-status
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      CONNECT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      # log
+      CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
+      CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR"
+      CONNECT_PLUGIN_PATH: '/usr/share/java'
+      # level of parallelism: increase that number up to the number of partitions it's reading
+      CONNECT_TASKS_MAX: 3
+    volumes:
+      - $PWD/scripts:/scripts
   # LOADBALANCER ----------------------------------------------------------------------------------
   web:
     image: nginx:1.17.9-alpine
@@ -145,4 +193,3 @@ services:
     depends_on:
       - heart-beat-producer
     command: ["--heart-beat-producer", "http://web:80/heart-beats"]
-
