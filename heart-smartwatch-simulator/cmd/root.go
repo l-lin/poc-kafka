@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/l-lin/poc/kafka-streams/heart-smartwatch-simulator/heartbeat"
+	"github.com/l-lin/poc-kafka/heart-smartwatch-simulator/heartbeat"
 	"github.com/spf13/cobra"
 )
 

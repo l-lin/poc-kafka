@@ -1,4 +1,4 @@
-module github.com/l-lin/poc/kafka-streams/heart-smartwatch-simulator
+module github.com/l-lin/poc-kafka/heart-smartwatch-simulator
 
 go 1.14
 
