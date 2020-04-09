@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.usecase.reset;
+package lin.louis.poc.hrc.factory.reset;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,7 +20,7 @@ class ResetCheckerFacadeTest {
 
 	private static final long USER_ID = 123L;
 
-	private ResetCheckerFacade checkerFacade = new ResetCheckerFacade(Arrays.asList(
+	private final ResetCheckerFacade checkerFacade = new ResetCheckerFacade(Arrays.asList(
 			new GapResetChecker(Duration.ofSeconds(5)),
 			new HriResetChecker(0, 250),
 			new QRSResetChecker(),

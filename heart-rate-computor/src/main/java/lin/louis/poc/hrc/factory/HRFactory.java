@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.usecase;
+package lin.louis.poc.hrc.factory;
 
 import java.time.Instant;
 import java.util.Queue;
@@ -7,7 +7,8 @@ import java.util.function.BiFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lin.louis.poc.hrc.usecase.reset.ResetCheckerFacade;
+import lin.louis.poc.hrc.factory.reset.ResetCheckerFacade;
+import lin.louis.poc.hrc.factory.valuecomputor.HRValueComputor;
 import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartRate;
 
@@ -24,7 +25,7 @@ public class HRFactory {
 	private final int nbHeartBeats;
 	private final ResetCheckerFacade resetCheckerFacade;
 	private final HRValueComputor hrValueComputor;
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public HRFactory(
 			int nbHeartBeats,

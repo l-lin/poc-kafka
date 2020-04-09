@@ -3,7 +3,7 @@ package lin.louis.poc.hrc.stream;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.apache.kafka.streams.kstream.ValueMapperWithKey;
 
-import lin.louis.poc.hrc.usecase.HRFactory;
+import lin.louis.poc.hrc.factory.HRFactory;
 import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartBeats;
 import lin.louis.poc.models.HeartRate;

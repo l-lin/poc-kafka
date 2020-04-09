@@ -8,7 +8,7 @@ import org.apache.kafka.streams.kstream.Materialized;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lin.louis.poc.hrc.usecase.HRFactory;
+import lin.louis.poc.hrc.factory.HRFactory;
 import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartBeats;
 import lin.louis.poc.models.HeartRate;

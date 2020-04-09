@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.usecase;
+package lin.louis.poc.hrc.factory.valuecomputor;
 
 import java.util.Arrays;
 

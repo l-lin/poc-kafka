@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.usecase.reset;
+package lin.louis.poc.hrc.factory.reset;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +16,7 @@ class QRSResetCheckerTest {
 
 	private static final long USER_ID = 123L;
 
-	private ResetChecker checker = new QRSResetChecker();
+	private final ResetChecker checker = new QRSResetChecker();
 
 	@Test
 	void isReset() {

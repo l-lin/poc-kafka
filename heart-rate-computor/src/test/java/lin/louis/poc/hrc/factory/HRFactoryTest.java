@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.usecase;
+package lin.louis.poc.hrc.factory;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,11 +15,12 @@ import java.util.Arrays;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.junit.jupiter.api.Test;
 
-import lin.louis.poc.hrc.usecase.reset.GapResetChecker;
-import lin.louis.poc.hrc.usecase.reset.HriResetChecker;
-import lin.louis.poc.hrc.usecase.reset.QRSResetChecker;
-import lin.louis.poc.hrc.usecase.reset.ResetCheckerFacade;
-import lin.louis.poc.hrc.usecase.reset.TimestampResetChecker;
+import lin.louis.poc.hrc.factory.reset.GapResetChecker;
+import lin.louis.poc.hrc.factory.reset.HriResetChecker;
+import lin.louis.poc.hrc.factory.reset.QRSResetChecker;
+import lin.louis.poc.hrc.factory.reset.ResetCheckerFacade;
+import lin.louis.poc.hrc.factory.reset.TimestampResetChecker;
+import lin.louis.poc.hrc.factory.valuecomputor.HRValueComputor;
 import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartBeatQRS;
 
@@ -58,9 +59,7 @@ class HRFactoryTest {
 		// THEN
 		assertNotNull(heartRate);
 		assertAll(
-				() -> {
-					assertEquals(newInstant(10), heartRate.getTimestamp());
-				},
+				() -> assertEquals(newInstant(10), heartRate.getTimestamp()),
 				() -> assertEquals(81.5d, heartRate.getValue())
 		);
 	}

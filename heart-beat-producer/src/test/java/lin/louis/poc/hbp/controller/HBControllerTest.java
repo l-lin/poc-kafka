@@ -1,4 +1,4 @@
-package lin.louis.poc.hbp.web;
+package lin.louis.poc.hbp.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

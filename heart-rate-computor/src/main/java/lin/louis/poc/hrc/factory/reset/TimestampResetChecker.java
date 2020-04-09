@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.usecase.reset;
+package lin.louis.poc.hrc.factory.reset;
 
 import java.util.ArrayList;
 import java.util.Queue;

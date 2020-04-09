@@ -3,6 +3,10 @@ package lin.louis.poc.hbp.dto;
 import lin.louis.poc.models.HeartBeatQRS;
 
 
+/**
+ * Not using the {@link lin.louis.poc.models.HeartBeat} because it does not do well with Jackson and generate multiple
+ * errors, like this getter {@link lin.louis.poc.models.HeartBeat#getSchema()}, hence the existence of this DTO.
+ */
 public class HeartBeatDTO {
 
 	private long userId;

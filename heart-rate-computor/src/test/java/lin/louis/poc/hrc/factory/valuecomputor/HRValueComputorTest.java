@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.usecase;
+package lin.louis.poc.hrc.factory.valuecomputor;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 class HRValueComputorTest {
 
-	private HRValueComputor computor = new HRValueComputor();
+	private final HRValueComputor computor = new HRValueComputor();
 
 	@Test
 	void compute() {

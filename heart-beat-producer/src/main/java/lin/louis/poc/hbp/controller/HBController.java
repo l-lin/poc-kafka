@@ -1,4 +1,4 @@
-package lin.louis.poc.hbp.web;
+package lin.louis.poc.hbp.controller;
 
 import java.time.Instant;
 
@@ -18,10 +18,10 @@ import lin.louis.poc.models.HeartBeat;
 @RequestMapping(path = "/heart-beats")
 public class HBController {
 
-	private final HBRepository HBRepository;
+	private final HBRepository hbRepository;
 
-	public HBController(HBRepository HBRepository) {
-		this.HBRepository = HBRepository;
+	public HBController(HBRepository hbRepository) {
+		this.hbRepository = hbRepository;
 	}
 
 	@PostMapping
@@ -33,6 +33,6 @@ public class HBController {
 								 .setQrs(heartBeatDTO.getQrs())
 								 .setTimestamp(Instant.now())
 								 .build();
-		HBRepository.save(heartBeat);
+		hbRepository.save(heartBeat);
 	}
 }
