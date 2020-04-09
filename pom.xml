@@ -32,12 +32,14 @@
 	<properties>
 		<java.version>11</java.version>
 
+		<!-- DEPENDENCIES -->
 		<avro.version>1.9.2</avro.version>
 		<commons.collections4.version>4.4</commons.collections4.version>
 		<confluent.version>5.4.1</confluent.version>
 		<fluent-kafka-streams-test.version>2.1.0</fluent-kafka-streams-test.version>
 		<kafka.version>2.4.1</kafka.version>
 
+		<!-- MAVEN PLUGINS -->
 		<dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
 	</properties>
 
@@ -46,10 +48,12 @@
 		<module>heart-beat-producer</module>
 		<module>heart-beat-validator</module>
 		<module>heart-rate-computor</module>
+		<module>heart-rate-consumer</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- KAFKA -->
 			<dependency>
 				<groupId>org.apache.avro</groupId>
 				<artifactId>avro</artifactId>
@@ -65,12 +69,15 @@
 				<artifactId>kafka-streams-avro-serde</artifactId>
 				<version>${confluent.version}</version>
 			</dependency>
+
+			<!-- OTHERS -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-collections4</artifactId>
 				<version>${commons.collections4.version}</version>
 			</dependency>
 
+			<!-- TESTS -->
 			<dependency>
 				<groupId>com.bakdata.fluent-kafka-streams-tests</groupId>
 				<artifactId>schema-registry-mock-junit5</artifactId>

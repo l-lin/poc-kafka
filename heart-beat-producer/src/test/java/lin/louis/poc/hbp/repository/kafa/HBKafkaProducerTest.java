@@ -60,7 +60,7 @@ class HBKafkaProducerTest {
 	@Autowired
 	private EmbeddedKafkaBroker embeddedKafka;
 
-	private HBRepository HBRepository;
+	private HBRepository hbRepository;
 
 	private BlockingQueue<ConsumerRecord<Long, HeartBeat>> consumerRecords;
 
@@ -84,7 +84,7 @@ class HBKafkaProducerTest {
 		var heartBeat = new HeartBeat(123L, 80, HeartBeatQRS.A, now);
 
 		// WHEN
-		HBRepository.save(heartBeat);
+		hbRepository.save(heartBeat);
 		var received = consumerRecords.poll(10, TimeUnit.SECONDS);
 
 		// THEN
@@ -120,6 +120,6 @@ class HBKafkaProducerTest {
 		producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, SpecificAvroSerializer.class);
 		producerProps.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistry.getUrl());
 		var template = new KafkaTemplate<>(new DefaultKafkaProducerFactory<Long, HeartBeat>(producerProps));
-		HBRepository = new HBKafkaProducer(TEMPLATE_TOPIC, template);
+		hbRepository = new HBKafkaProducer(TEMPLATE_TOPIC, template);
 	}
 }

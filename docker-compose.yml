@@ -189,6 +189,7 @@ services:
   # HEART SMARTWATCH SIMULATOR ---------------------------------------------------------------------
   heart-smartwatch-simulator:
     build: ./heart-smartwatch-simulator
+    image: linlouis/heart-smartwatch-simulator
     container_name: heart-smartwatch-simulator
     depends_on:
       - heart-beat-producer
@@ -196,4 +197,16 @@ services:
       "--heart-beat-producer", "http://web:80/heart-beats",
       "--nb-users", "10",
       "--percent-failures", "0,0,0,0,0,5,5,10,15,50"
+    ]
+  # HEART RATE CONSUMER ----------------------------------------------------------------------------
+  heart-rate-consumer:
+    image: linlouis/heart-rate-consumer
+    depends_on:
+      - schema-registry
+      - heart-rate-connector
+    ports:
+      - 8480:8480
+    command: [
+      "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
+      "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081"
     ]

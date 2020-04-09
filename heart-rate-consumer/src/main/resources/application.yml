@@ -1,0 +1,28 @@
+spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    properties:
+      schema.registry.url: http://localhost:8081
+      # found here: io.confluent.kafka.serializers.AbstractKafkaAvroDeserializer.configure
+      # needed if we have Specific Avro object, not Generic Avro object (i.e. containing only simple fields)
+      specific.avro.reader: true
+    consumer:
+      # consumer properties can be found in org.apache.kafka.clients.consumer.ConsumerConfig
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      # we do not want to retrace all the heart rate history
+      auto-offset-reset: latest
+      group-id: heart-rate-consumer
+  jackson:
+    # ensure the input/output in epoch milli are correctly read/write by Jackson
+    deserialization:
+      READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+  main:
+    banner-mode: OFF
+server:
+  port: 8480
+
+# application specific
+topic:
+  name: heart-rates

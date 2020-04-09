@@ -31,8 +31,7 @@ from IDE launched app. Thus, a `docker-compose-local.yml` file is here to launch
 ```bash
 # launch all services
 docker-compose -f docker-compose-local.yml up -d
-# wait until all services are started then setup environment
-./scripts/setup.sh
+# then use same commands as above
 ```
 
 ## Useful commands
@@ -115,6 +114,8 @@ __Kafka__
 - [The internal of Kafka Streams Gitbook](https://jaceklaskowski.gitbooks.io/mastering-kafka-streams/)
 - [Example of using Kafka Streams API](https://github.com/abhirockzz/kafka-streams-apis)
 - [Exploring Kafka Streams](https://dev.to/itnext/learn-stream-processing-with-kafka-streams-stateless-operations-1k4h)
+- [Reactor Kafka](https://projectreactor.io/docs/kafka/release/reference/)
+- [Introduction to reactor Kafka](https://www.reactiveprogramming.be/an-introduction-to-reactor-kafka/)
 
 __Avro__
 
@@ -125,7 +126,7 @@ __Avro__
 - [Stackoverflow question on testing Kafka consumer with Avro schema](https://stackoverflow.com/questions/57575067/kafka-consumer-unit-test-with-avro-schema-registry-failing)
 - [Bakdata fluent-kafka-streams-test to test Kafka streams](https://github.com/bakdata/fluent-kafka-streams-tests)
 
-__Spring Kafka__
+__Spring__
 
 - [Spring Kafka](https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#kafka)
 - [How to transform a batch pipeline into real time one](https://medium.com/@stephane.maarek/how-to-use-apache-kafka-to-transform-a-batch-pipeline-into-a-real-time-one-831b48a6ad85)
@@ -135,6 +136,18 @@ __Spring Kafka__
 - [Spring official documentation on Kafka Streams brancher](https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#using-kafkastreamsbrancher)
 - [Spring example to use KafkaStreamBrancher](https://github.com/spring-projects/spring-kafka/blob/v2.3.7.RELEASE/spring-kafka/src/test/java/org/springframework/kafka/streams/KafkaStreamsBranchTests.java#L158-L166)
 - [Spring tutorial for building interactive web app using websocket](https://spring.io/guides/gs/messaging-stomp-websocket/)
+
+__Reactor__
+
+- [Spring Webflux and SSE](https://josdem.io/techtalk/spring/spring_boot_sse/)
+- [Yong Mook Kim Spring Webflux and SSE tutorial](https://mkyong.com/spring-boot/spring-boot-webflux-server-sent-events-example/)
+- [Okta tutorial on getting started with Reactive programming in Spring](https://developer.okta.com/blog/2018/09/21/reactive-programming-with-spring)
+- [Stream realtime data the reactive way with Angular+Spring boot+Kafka](https://medium.com/swlh/angular-spring-boot-kafka-how-to-stream-realtime-data-the-reactive-way-510a0f1e5881)
+- [Sample reactive app in Spring](https://github.com/CollaborationInEncapsulation/get-reactive-with-spring5-demo)
+- [Samples from official Reactor Kafka project](https://github.com/reactor/reactor-kafka/tree/master/reactor-kafka-samples)
+- [Another sample using Reactor Kafka](https://github.com/davemaier/reactivekafkaserver)
+- [WebFluxTest with WebTestClient](https://howtodoinjava.com/spring-webflux/webfluxtest-with-webtestclient/)
+- [Testing with reactor-test in JUnit](https://projectreactor.io/docs/core/release/reference/index.html#testing)
 
 __KSQL__
 
