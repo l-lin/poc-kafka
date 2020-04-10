@@ -55,7 +55,7 @@ func (r Random) Build() HeartBeat {
 }
 
 func (r Random) isFailure() bool {
-	i := randomInt(0, 100)
+	i := rand.Intn(99) + 1
 	return i <= r.PercentFailure
 }
 
