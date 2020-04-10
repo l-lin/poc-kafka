@@ -1,6 +1,7 @@
 $(function() {
-	const totalPoints = 300;
+	const totalPoints = 120;
 	const updateInterval = 1000;
+  const buildEventUrl = (userId) => '/heart-rates/' + userId + '/stream';
 
   // GLOBAL VARIABLES :scream: --------------------------------------------------------------------
 	let data = [];
@@ -13,8 +14,7 @@ $(function() {
 		}
 
     if (heartRate && !isNaN(heartRate.value)) {
-      data.push(heartRate.value);
-      heartRate = null;
+        data.push(heartRate.value);
     }
 		while (data.length < totalPoints) {
 			data.push(0);
@@ -27,7 +27,7 @@ $(function() {
 		return res;
 	}
 
-	let plot = $.plot('#placeholder', [ buildData() ], {
+	let plot = $.plot('.heart-rate-placeholder', [ buildData() ], {
 		series: {
       shadowSize: 0	// Drawing is faster without shadows
 		},
@@ -50,9 +50,8 @@ $(function() {
     return userId;
   };
 
-  const buildEventUrl = (userId) => '/heart-rates/' + userId;
   const userId = getUserId();
-  $('.title').text('Heart rates for user ' + userId);
+  $('.title').text(`Heart rates for user ${userId}`);
   let source = new EventSource(buildEventUrl(userId));
   source.addEventListener('message', (event) => {
     heartRate = JSON.parse(event.data);

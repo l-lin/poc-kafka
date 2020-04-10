@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.controller;
+package lin.louis.poc.hrc.web;
 
 import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
@@ -21,7 +21,7 @@ public class HRController {
 		this.hrFetcher = hrFetcher;
 	}
 
-	@GetMapping(path = "/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	@GetMapping(path = "/{userId}/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Publisher<HeartRateDTO> heartRateFlux(@PathVariable long userId) {
 		return hrFetcher.fetch(userId);
 	}

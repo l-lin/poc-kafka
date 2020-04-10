@@ -6,21 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>heart-rate-consumer</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css"/>
-  <link rel="stylesheet" href="assets/main.css"/>
+  <link rel="stylesheet" href="assets/heart-rates.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/flot@4.2.0/dist/es5/jquery.flot.js"></script>
+  <script defer src="assets/heart-rates.stream.js"></script>
 </head>
 <body>
 <section class="section">
   <div class="container">
     <h1 class="title"></h1>
     <a href="/" class="button is-primary">Back</a>
-    <div class="demo-container">
-      <div id="placeholder" class="demo-placeholder"></div>
+    <div class="heart-rate-container">
+      <div class="heart-rate-placeholder"></div>
     </div>
   </div>
 </section>
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/flot@4.2.0/dist/es5/jquery.flot.js"></script>
-<script type="text/javascript" src="assets/main.js"></script>
 </body>
 </html>

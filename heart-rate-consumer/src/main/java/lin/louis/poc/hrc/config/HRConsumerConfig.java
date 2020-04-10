@@ -5,8 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import lin.louis.poc.hrc.repository.HRRepository;
-import lin.louis.poc.hrc.repository.kafka.HRKafkaConsumer;
+import lin.louis.poc.hrc.repository.HRFluxRepository;
+import lin.louis.poc.hrc.repository.kafka.KafkaHRFluxRepository;
 import lin.louis.poc.hrc.service.HRFetcher;
 
 
@@ -19,12 +19,12 @@ public class HRConsumerConfig {
 	}
 
 	@Bean
-	HRRepository hrRepository(KafkaProperties kafkaProperties) {
-		return new HRKafkaConsumer(kafkaProperties);
+	HRFluxRepository hrRepository(KafkaProperties kafkaProperties) {
+		return new KafkaHRFluxRepository(kafkaProperties);
 	}
 
 	@Bean
-	HRFetcher hrFetcher(HRRepository hrRepository) {
-		return new HRFetcher(hrRepository);
+	HRFetcher hrFetcher(HRFluxRepository hrFluxRepository) {
+		return new HRFetcher(hrFluxRepository);
 	}
 }

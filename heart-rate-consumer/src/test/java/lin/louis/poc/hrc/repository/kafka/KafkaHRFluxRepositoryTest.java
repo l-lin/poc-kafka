@@ -34,7 +34,7 @@ import com.bakdata.schemaregistrymock.junit5.SchemaRegistryMockExtension;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer;
-import lin.louis.poc.hrc.repository.HRRepository;
+import lin.louis.poc.hrc.repository.HRFluxRepository;
 import lin.louis.poc.models.HeartRate;
 import reactor.test.StepVerifier;
 
@@ -44,7 +44,7 @@ import reactor.test.StepVerifier;
 		topics = "heart-rates"
 )
 @ExtendWith(SpringExtension.class)
-class HRKafkaConsumerTest {
+class KafkaHRFluxRepositoryTest {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -60,7 +60,7 @@ class HRKafkaConsumerTest {
 
 	private KafkaTemplate<Long, HeartRate> kafkaTemplate;
 
-	private HRRepository hrRepository;
+	private HRFluxRepository hrFluxRepository;
 
 	@BeforeEach
 	void setUp() {
@@ -76,7 +76,7 @@ class HRKafkaConsumerTest {
 		kafkaProperties.getConsumer().setValueDeserializer(SpecificAvroDeserializer.class);
 		// need to set to earliest, because we send the kafka message first, before reading
 		kafkaProperties.getConsumer().setAutoOffsetReset("earliest");
-		hrRepository = new HRKafkaConsumer(kafkaProperties);
+		hrFluxRepository = new KafkaHRFluxRepository(kafkaProperties);
 
 		// PRODUCER
 		var producerProps = KafkaTestUtils.producerProps(embeddedKafka);
@@ -97,7 +97,7 @@ class HRKafkaConsumerTest {
 		heartRates.forEach(heartRate -> kafkaTemplate.send(TOPIC, USER_ID, heartRate));
 
 		// WHEN
-		var step = StepVerifier.create(hrRepository.read(USER_ID));
+		var step = StepVerifier.create(hrFluxRepository.read(USER_ID));
 
 		// THEN
 		heartRates.forEach(heartRate -> {

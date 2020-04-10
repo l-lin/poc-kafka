@@ -9,20 +9,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 
-import lin.louis.poc.hrc.repository.HRRepository;
+import lin.louis.poc.hrc.repository.HRFluxRepository;
 import lin.louis.poc.models.HeartRate;
 import reactor.core.publisher.Flux;
 import reactor.kafka.receiver.KafkaReceiver;
 import reactor.kafka.receiver.ReceiverOptions;
 
 
-public class HRKafkaConsumer implements HRRepository {
+public class KafkaHRFluxRepository implements HRFluxRepository {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final KafkaProperties kafkaProperties;
 
-	public HRKafkaConsumer(KafkaProperties kafkaProperties) {this.kafkaProperties = kafkaProperties;}
+	public KafkaHRFluxRepository(KafkaProperties kafkaProperties) {this.kafkaProperties = kafkaProperties;}
 
 	@Override
 	public Flux<HeartRate> read(long userId) {

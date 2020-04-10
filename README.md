@@ -136,6 +136,7 @@ __Spring__
 - [Spring official documentation on Kafka Streams brancher](https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#using-kafkastreamsbrancher)
 - [Spring example to use KafkaStreamBrancher](https://github.com/spring-projects/spring-kafka/blob/v2.3.7.RELEASE/spring-kafka/src/test/java/org/springframework/kafka/streams/KafkaStreamsBranchTests.java#L158-L166)
 - [Spring tutorial for building interactive web app using websocket](https://spring.io/guides/gs/messaging-stomp-websocket/)
+- [Spring tutorial for accessing data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 
 __Reactor__
 
@@ -153,3 +154,8 @@ __KSQL__
 
 - [KSQL workshop](https://github.com/confluentinc/demo-scene/blob/master/ksql-workshop/ksql-workshop.adoc)
 - [ksqDB reference doc](https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/select-pull-query/)
+
+__Front__
+
+- [Bulma - CSS framework](https://bulma.io/)
+- [Flot - JS plotting library](https://www.flotcharts.org/)

@@ -1,4 +1,10 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/heart_monitor?applicationName=heart-rate-consumer
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
   kafka:
     bootstrap-servers:
       - localhost:9092

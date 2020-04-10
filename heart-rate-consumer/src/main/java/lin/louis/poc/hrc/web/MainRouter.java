@@ -1,4 +1,4 @@
-package lin.louis.poc.hrc.controller;
+package lin.louis.poc.hrc.web;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
@@ -21,7 +21,7 @@ public class MainRouter {
 	 * @see <a href="https://github.com/spring-projects/spring-boot/issues/9785">Github issue for more info</a>
 	 */
 	@Bean
-	public RouterFunction<ServerResponse> index(@Value("classpath:/static/index.html") Resource indexHtml) {
+	RouterFunction<ServerResponse> index(@Value("classpath:/static/index.html") Resource indexHtml) {
 		return route(GET("/"), request -> ok().contentType(MediaType.TEXT_HTML).bodyValue(indexHtml));
 	}
 }
