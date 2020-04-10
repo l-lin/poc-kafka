@@ -4,6 +4,7 @@ import org.reactivestreams.Publisher;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lin.louis.poc.hrc.dto.HeartRateDTO;
@@ -11,6 +12,7 @@ import lin.louis.poc.hrc.service.HRFetcher;
 
 
 @RestController
+@RequestMapping(path = "/heart-rates")
 public class HRController {
 
 	private final HRFetcher hrFetcher;

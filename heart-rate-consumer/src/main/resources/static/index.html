@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>heart-rate-consumer</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css"/>
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Hello, world</h1>
+    <div>
+      <form method="get" action="/heart-rates.html">
+        <div class="field has-addons">
+          <div class="control has-icons-left">
+            <div class="select">
+              <!-- TODO: fetch dynamically the user ids -->
+              <select name="userId">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <span class="icon is-medium is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <div class="control">
+            <button type="submit" class="button is-primary">Check heart rate in real time</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <hr class="hr"/>
+  </div>
+</section>
+</body>
+</html>

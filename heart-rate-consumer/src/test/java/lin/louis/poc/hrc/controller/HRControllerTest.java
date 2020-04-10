@@ -43,7 +43,7 @@ class HRControllerTest {
 		Mockito.when(hrFetcher.fetch(USER_ID)).thenReturn(Flux.fromArray(heartRates));
 
 		// WHEN
-		var heartRateList = webTestClient.get().uri("/{userId}", USER_ID)
+		var heartRateList = webTestClient.get().uri("/heart-rates/{userId}", USER_ID)
 										 .accept(MediaType.TEXT_EVENT_STREAM)
 										 .exchange()
 										 .expectStatus().isOk()
