@@ -8,7 +8,7 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import lin.louis.poc.hbp.repository.HBRepository;
-import lin.louis.poc.hbp.repository.kafka.HBKafkaProducer;
+import lin.louis.poc.hbp.repository.kafka.KafkaHBRepository;
 import lin.louis.poc.models.HeartBeat;
 
 
@@ -21,6 +21,12 @@ public class HBProducerConfig {
 		return new TopicProperties();
 	}
 
+	/**
+	 * Create a new topic on startup if not exists.
+	 *
+	 * @see <a href="https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#configuring-topics">Spring
+	 * Kafka documentation</a>
+	 */
 	@Bean
 	NewTopic newTopic(TopicProperties topicProperties) {
 		return TopicBuilder.name(topicProperties.getName())
@@ -32,6 +38,6 @@ public class HBProducerConfig {
 
 	@Bean
 	HBRepository heartBeatRepository(TopicProperties topicProperties, KafkaTemplate<Long, HeartBeat> kafkaTemplate) {
-		return new HBKafkaProducer(topicProperties.getName(), kafkaTemplate);
+		return new KafkaHBRepository(topicProperties.getName(), kafkaTemplate);
 	}
 }

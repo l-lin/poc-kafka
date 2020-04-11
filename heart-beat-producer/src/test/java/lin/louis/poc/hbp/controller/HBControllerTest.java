@@ -27,7 +27,7 @@ class HBControllerTest {
 	@MockBean
 	private HBRepository HBRepository;
 
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
 	void create() throws Exception {

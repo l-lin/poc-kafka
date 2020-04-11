@@ -6,6 +6,9 @@ import java.util.Queue;
 import lin.louis.poc.models.HeartBeat;
 
 
+/**
+ * Facade to check if the heartbeats are reset or not.
+ */
 public class ResetCheckerFacade {
 
 	private final List<ResetChecker> resetCheckers;

@@ -3,6 +3,8 @@ spring:
     bootstrap-servers:
       - localhost:9092
     properties:
+      # using a schema registry to fetch the Avro schemas
+      # see https://docs.confluent.io/current/schema-registry/index.html
       schema.registry.url: http://localhost:8081
     streams:
       application-id: heart-beat-validator
@@ -10,9 +12,10 @@ spring:
       # streams properties can be found in org.apache.kafka.clients.streams.StreamsConfig
       properties:
         default.key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+        # since my HeartBeat Avro schema is specific (I'm using a specific timestamp), I need to use SpecificAvroSerde, not GenericAvroSerde
         default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
   jackson:
-    # ensure the input/output in epoch milli are correctly read/write by Jackson
+    # ensure the input/output in epoch milli are correctly read/written by Jackson
     deserialization:
       READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
     serialization:

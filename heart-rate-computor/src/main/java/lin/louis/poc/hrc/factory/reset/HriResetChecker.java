@@ -5,6 +5,9 @@ import java.util.Queue;
 import lin.louis.poc.models.HeartBeat;
 
 
+/**
+ * Checking if the heartbeat has a valid Instant Heart Rate and should not be out of range.
+ */
 public class HriResetChecker implements ResetChecker {
 
 	private final int hriMin;

@@ -6,6 +6,9 @@ import java.util.Queue;
 import lin.louis.poc.models.HeartBeat;
 
 
+/**
+ * Checking if a heartbeat has a timestamp before the last heartbeat timestamp.
+ */
 public class TimestampResetChecker implements ResetChecker {
 
 	@Override

@@ -9,6 +9,12 @@ import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartBeats;
 
 
+/**
+ * Aggregate a list of {@link lin.louis.poc.models.HeartBeat} into a {@link lin.louis.poc.models.HeartBeats}. We can't
+ * directly use a {@link java.lang.Iterable<lin.louis.poc.models.HeartBeat>} because it seems to serialize & deserialize
+ * in between the kafka streams, and since it's not an Avro schema, it will miserably fail... The {@link
+ * lin.louis.poc.models.HeartBeats} is a small hack to bypass this small inconvenience.
+ */
 public enum HBAggregator implements Aggregator<Long, HeartBeat, HeartBeats> {
 	INSTANCE;
 

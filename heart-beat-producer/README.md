@@ -12,7 +12,7 @@ mvn clean package
 
 ### Run
 
-Using [docker-compose-local.yml](../docker-compose-local.yml), you can launch this application for fast debugging
+Using [docker-compose-dep.yml](../docker-compose-dep.yml), you can launch this application for fast debugging
 purpose as it is [already configured](src/main/resources/application.yml) to use the services.
 
 ```bash
@@ -25,7 +25,7 @@ docker run -it --rm --name heart-beat-producer --net host \
     linlouis/heart-beat-producer
 
 # run with docker in the services network
-docker run -it --rm --name heart-beat-producer --net kafka-streams_default \
+docker run -it --rm --name heart-beat-producer --net "${PWD##*/}_default" \
     -p 8180:8180 \
     linlouis/heart-beat-producer \
     --spring.kafka.bootstrap-servers=kafka:29092 \
@@ -45,6 +45,6 @@ Using [HTTPie](https://httpie.org):
 
 ```bash
 # send a single heart beat to kafka
-http :8180/heart-beats userId=1 hri=70 qrs=A
+http :8180/heart-beat-producer/heart-beats userId=1 hri=70 qrs=A
 ```
 

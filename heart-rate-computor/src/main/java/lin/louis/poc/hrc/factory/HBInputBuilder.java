@@ -40,22 +40,27 @@ public class HBInputBuilder {
 	}
 
 	public List<HeartBeat> build() {
-		if (!hasEnoughHeartBeats(allHeartBeats.size())) {
+		if (hasNotEnoughHeartBeats(allHeartBeats.size())) {
 			return allHeartBeats;
 		}
 
 		int startIndex = computeStartIndex();
-		if (!hasEnoughHeartBeats(allHeartBeats.size() - startIndex)) {
+		if (hasNotEnoughHeartBeats(allHeartBeats.size() - startIndex)) {
 			// get last nbHeartBeats from allHeartBeats
 			startIndex = allHeartBeats.size() - nbHeartBeats;
 		}
 		return allHeartBeats.subList(startIndex, allHeartBeats.size());
 	}
 
-	private boolean hasEnoughHeartBeats(int nb) {
-		return nb >= nbHeartBeats;
+	private boolean hasNotEnoughHeartBeats(int nb) {
+		return nb < nbHeartBeats;
 	}
 
+	/**
+	 * Compute the index of the heartbeats list to start in the list to compute the heart rates.
+	 *
+	 * @return the index of the list (starts at 0)
+	 */
 	private int computeStartIndex() {
 		var startIndex = 0;
 		var indexOffset = findIndexOffset(allHeartBeats);
@@ -66,6 +71,9 @@ public class HBInputBuilder {
 		return startIndex;
 	}
 
+	/**
+	 * Find the list index from the given offset.
+	 */
 	private int findIndexOffset(List<HeartBeat> heartBeats) {
 		for (int i = 0; i < heartBeats.size(); i++) {
 			var heartBeat = heartBeats.get(i);

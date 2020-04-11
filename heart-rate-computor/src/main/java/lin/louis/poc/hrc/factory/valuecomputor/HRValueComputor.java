@@ -4,9 +4,10 @@ import java.util.Arrays;
 
 
 /**
- * Computes the heart rate value from a given heart beats
+ * Computes the heart rate value from a given heart beats by computing the median.
  */
 public class HRValueComputor {
+
 	public double compute(int... values) {
 		if (values == null || values.length == 0) {
 			return 0d;

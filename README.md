@@ -3,6 +3,8 @@
 ![Java](https://github.com/l-lin/poc-kafka/workflows/Java/badge.svg)
 ![Go](https://github.com/l-lin/poc-kafka/workflows/Go/badge.svg)
 
+![heart-monitor](./heart-monitor.gif)
+
 ## Getting started
 ### Build
 
@@ -20,6 +22,8 @@ __Production alike__
 docker-compose up -d --scale heart-beat-producer=3 --scale heart-rate-computor=3
 # wait until all services are started then setup environment
 ./scripts/setup.sh
+# go to the heart-rate-consumer admin interface
+firefox http://localhost/ &
 ```
 
 __Local environment__
@@ -88,20 +92,23 @@ http :8082/connectors
 curl -X "POST" "http://localhost:8082/connectors/" \
      -H "Content-Type: application/json" \
      -d '{
-             "name": "heart-rate-connector-sink",
-             "config": {
-                 "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-                 "connection.url": "jdbc:postgresql://db:5432/heart_monitor?applicationName=heart-rate-connector",
-                 "connection.user": "postgres",
-                 "connection.password": "postgres",
-                 "auto.create":"true",
-                 "auto.evolve":"true",
-                 "topics": "heart-rates",
-                 "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-                 "transforms": "ExtractTimestamp",
-                 "transforms.ExtractTimestamp.type": "org.apache.kafka.connect.transforms.InsertField$Value",
-                 "transforms.ExtractTimestamp.timestamp.field" : "extract_ts"
-             }
+          "name": "heart-rate-connector-sink",
+          "config": {
+            "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+            "connection.url": "jdbc:postgresql://db:5432/heart_monitor?applicationName=heart-rate-connector",
+            "connection.user": "postgres",
+            "connection.password": "postgres",
+            "auto.create":"true",
+            "auto.evolve":"true",
+            "pk.mode": "kafka",
+            "topics": "heart-rates",
+            "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+            "transforms": "ExtractTimestamp,RenameField",
+            "transforms.ExtractTimestamp.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+            "transforms.ExtractTimestamp.timestamp.field" : "extract_ts",
+            "transforms.RenameField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+            "transforms.RenameField.renames" : "userId:user_id,isReset:is_reset"
+          }
      }'
 ```
 

@@ -1,5 +1,8 @@
 package lin.louis.poc.hbp.config;
 
+/**
+ * TopicProperties contains the properties fetched from the application configuration to customize the kafka topics.
+ */
 public class TopicProperties {
 
 	/**

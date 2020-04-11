@@ -48,9 +48,17 @@ public class HBValidatorStreamBuilder {
 		return this;
 	}
 
+	/**
+	 * Using a KafkaStreamBrancher to build conditional branches on top of KStream.
+	 *
+	 * @see <a href="https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#using-kafkastreamsbrancher">Spring
+	 * Kafka documentation</a>
+	 */
 	public KStream<Long, HeartBeat> buildKStream() {
 		var from = streamsBuilder.<Long, HeartBeat>stream(topicFrom)
+				// we can peek on the stream, to log or do other stuffs
 				.peek((key, heartBeat) -> logger.debug("reading heart beat with key {}: {}", key, heartBeat));
+		// just showing we can print in System.out for debug purpose
 		from.print(Printed.toSysOut());
 		return new KafkaStreamBrancher<Long, HeartBeat>()
 				.branch(predicate, kStream -> kStream.to(topicValidTo))

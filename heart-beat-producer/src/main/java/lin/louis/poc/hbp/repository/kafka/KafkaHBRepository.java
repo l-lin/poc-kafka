@@ -8,7 +8,13 @@ import lin.louis.poc.hbp.repository.HBRepository;
 import lin.louis.poc.models.HeartBeat;
 
 
-public class HBKafkaProducer implements HBRepository {
+/**
+ * Simple Spring Kafka producer implementation.
+ *
+ * @see <a href="https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#kafka-template">Spring Kafka
+ * documentation</a>
+ */
+public class KafkaHBRepository implements HBRepository {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -16,7 +22,7 @@ public class HBKafkaProducer implements HBRepository {
 
 	private final KafkaTemplate<Long, HeartBeat> kafkaTemplate;
 
-	public HBKafkaProducer(String topicName, KafkaTemplate<Long, HeartBeat> kafkaTemplate) {
+	public KafkaHBRepository(String topicName, KafkaTemplate<Long, HeartBeat> kafkaTemplate) {
 		this.topicName = topicName;
 		this.kafkaTemplate = kafkaTemplate;
 	}
@@ -29,6 +35,7 @@ public class HBKafkaProducer implements HBRepository {
 				heartBeat.getUserId(),
 				heartBeat
 		);
+		// using the userId as the topic key, so I can easily aggregate them afterwards
 		kafkaTemplate.send(topicName, heartBeat.getUserId(), heartBeat);
 	}
 }

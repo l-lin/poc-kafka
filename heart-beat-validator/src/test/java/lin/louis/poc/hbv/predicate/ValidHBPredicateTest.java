@@ -17,7 +17,7 @@ class ValidHBPredicateTest {
 
 	private static final long USER_ID = 123L;
 
-	private Predicate<Long, HeartBeat> predicate = new ValidHBPredicate();
+	private final Predicate<Long, HeartBeat> predicate = new ValidHBPredicate();
 
 	@Test
 	void test_shouldValidate_whenHeartBeatHasValidValues() {

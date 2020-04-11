@@ -13,7 +13,7 @@ mvn clean package
 
 ### Run
 
-Using [docker-compose-local.yml](../docker-compose-local.yml), you can launch this application for fast debugging
+Using [docker-compose-dep.yml](../docker-compose-dep.yml), you can launch this application for fast debugging
 purpose as it is [already configured](src/main/resources/application.yml) to use the services.
 
 ```bash
@@ -26,7 +26,7 @@ docker run -it --rm --name heart-beat-validator --net host \
     linlouis/heart-beat-validator
 
 # run with docker in the services network
-docker run -it --rm --name heart-beat-validator --net kafka-streams_default \
+docker run -it --rm --name heart-beat-validator --net "${PWD##*/}_default" \
     -p 8280:8280 \
     linlouis/heart-beat-validator \
     --spring.kafka.bootstrap-servers=kafka:29092 \

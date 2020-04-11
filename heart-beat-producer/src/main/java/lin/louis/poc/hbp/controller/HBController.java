@@ -24,6 +24,9 @@ public class HBController {
 		this.hbRepository = hbRepository;
 	}
 
+	/**
+	 * Simple endpoint the smartwatch can attack to register a new heart beat
+	 */
 	@PostMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void create(@RequestBody HeartBeatDTO heartBeatDTO) {

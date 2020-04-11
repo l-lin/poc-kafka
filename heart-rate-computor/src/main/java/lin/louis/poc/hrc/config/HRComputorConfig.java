@@ -37,6 +37,12 @@ public class HRComputorConfig {
 		return new HRProperties();
 	}
 
+	/**
+	 * Create a new topic on startup if not exists.
+	 *
+	 * @see <a href="https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#configuring-topics">Spring
+	 * Kafka documentation</a>
+	 */
 	@Bean
 	NewTopic topicHeartRates(TopicsProperties topicsProperties) {
 		TopicsProperties.To t = topicsProperties.getTo();

@@ -6,6 +6,9 @@ import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartBeatQRS;
 
 
+/**
+ * Checking if the heartbeat has a valid heart activity.
+ */
 public class QRSResetChecker implements ResetChecker {
 
 	@Override

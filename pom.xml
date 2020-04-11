@@ -16,6 +16,7 @@
 	<packaging>pom</packaging>
 
 	<pluginRepositories>
+		<!-- pluginRepository to get kafka-schema-registry-maven-plugin -->
 		<pluginRepository>
 			<id>confluent</id>
 			<url>http://packages.confluent.io/maven/</url>
@@ -23,6 +24,7 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<repositories>
+		<!-- confluent libraries are available in their own repository -->
 		<repository>
 			<id>confluent</id>
 			<url>http://packages.confluent.io/maven/</url>

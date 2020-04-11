@@ -28,7 +28,9 @@ public class HRComputorStreamBuilder {
 
 	private int nbHeartBeats;
 
-	private HRComputorStreamBuilder(StreamsBuilder streamsBuilder) {this.streamsBuilder = streamsBuilder;}
+	private HRComputorStreamBuilder(StreamsBuilder streamsBuilder) {
+		this.streamsBuilder = streamsBuilder;
+	}
 
 	public static HRComputorStreamBuilder withStreamsBuilder(StreamsBuilder streamsBuilder) {
 		return new HRComputorStreamBuilder(streamsBuilder);
@@ -59,7 +61,7 @@ public class HRComputorStreamBuilder {
 		KStream<Long, HeartBeat> kStream = streamsBuilder.<Long, HeartBeat>stream(topicFrom)
 				.peek((userId, heartBeat) -> logger.debug("reading heart beat of user {}: {}", userId, heartBeat));
 
-		// KTable that will contain the aggregated heart beats
+		// KTable that will contain the aggregated heart beats.
 		// I had to create a new HeartBeats Avro model, because Kafka does not know how to deserialize Iterable of
 		// Avro models...
 		// We could use a TimeWindow to fetch only current window, not every heart beats from this KTable

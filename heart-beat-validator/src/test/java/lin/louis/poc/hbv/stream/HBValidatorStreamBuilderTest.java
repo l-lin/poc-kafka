@@ -1,6 +1,7 @@
 package lin.louis.poc.hbv.stream;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.apache.kafka.common.serialization.Serdes;
@@ -25,26 +26,37 @@ import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartBeatQRS;
 
 
+/**
+ * Using <a href="https://github.com/bakdata/fluent-kafka-streams-tests#using-it-to-write-tests">Bakdata
+ * fluent-kafka-streams-test</a> to test my kafka streams as it provides nice test features to write readable tests.
+ */
 @EmbeddedKafka(
 		partitions = 1,
 		topics = { "heart-beats", "heart-beats-valid", "heart-beats-invalid" }
 )
 @ExtendWith(SpringExtension.class)
 class HBValidatorStreamBuilderTest {
+
 	private static final String TOPIC_FROM = "heart-beats";
+
 	private static final String TOPIC_TO_VALID = "heart-beats-valid";
+
 	private static final String TOPIC_TO_INVALID = "heart-beats-invalid";
+
 	private final Topology topology = HBValidatorStreamBuilder.withStreamsBuilder(new StreamsBuilder())
 															  .from(TOPIC_FROM)
 															  .to(TOPIC_TO_VALID, TOPIC_TO_INVALID)
 															  .withPredicate(new ValidHBPredicate())
 															  .buildTopology();
+
 	@Autowired
 	private EmbeddedKafkaBroker embeddedKafka;
+
 	private TestTopologyExtension<Long, HeartBeat> testTopology;
 
 	@BeforeEach
 	void setUp() {
+		// not registering the TestTopology as a JUnit extension because Kafka is instanciated by Spring Test in runtime
 		testTopology = new TestTopologyExtension<>(topology, buildKafkaProperties(embeddedKafka));
 		testTopology.start();
 	}
@@ -80,13 +92,13 @@ class HBValidatorStreamBuilderTest {
 					.add(invalidHeartBeats[2].getUserId(), null)
 					.add(validHeartBeats[4].getUserId(), validHeartBeats[4]);
 
-		testTopology.streamOutput(TOPIC_TO_VALID)
-					.expectNextRecord().hasKey(validHeartBeats[0].getUserId()).hasValue(validHeartBeats[0])
-					.expectNextRecord().hasKey(validHeartBeats[1].getUserId()).hasValue(validHeartBeats[1])
-					.expectNextRecord().hasKey(validHeartBeats[2].getUserId()).hasValue(validHeartBeats[2])
-					.expectNextRecord().hasKey(validHeartBeats[3].getUserId()).hasValue(validHeartBeats[3])
-					.expectNextRecord().hasKey(validHeartBeats[4].getUserId()).hasValue(validHeartBeats[4])
-					.expectNoMoreRecord();
+		var testOutputValid = testTopology.streamOutput(TOPIC_TO_VALID);
+		Arrays.stream(validHeartBeats)
+			  .forEach(validHeartBeat -> testOutputValid.expectNextRecord()
+														.hasKey(validHeartBeat.getUserId())
+														.hasValue(validHeartBeat));
+		testOutputValid.expectNoMoreRecord();
+
 		testTopology.streamOutput(TOPIC_TO_INVALID)
 					.expectNextRecord().hasKey(invalidHeartBeats[0].getUserId()).hasValue(invalidHeartBeats[0])
 					.expectNextRecord().hasKey(invalidHeartBeats[1].getUserId()).hasValue(invalidHeartBeats[1])
@@ -101,6 +113,7 @@ class HBValidatorStreamBuilderTest {
 		properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
 		properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.LongSerde.class.getName());
 		properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class.getName());
+		// we need to set this property, even if the URL does not exist, but it still needs to be syntactically valid
 		properties.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://dummy");
 		return properties;
 	}

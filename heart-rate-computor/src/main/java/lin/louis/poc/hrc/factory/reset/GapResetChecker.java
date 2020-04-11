@@ -7,6 +7,10 @@ import java.util.Queue;
 import lin.louis.poc.models.HeartBeat;
 
 
+/**
+ * Check if the heart rate as a gap, which is detected when there is N seconds or more between two consecutives
+ * heartbeats.
+ */
 public class GapResetChecker implements ResetChecker {
 
 	private final Duration gapDuration;

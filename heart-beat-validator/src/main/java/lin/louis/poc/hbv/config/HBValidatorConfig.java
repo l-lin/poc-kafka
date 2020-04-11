@@ -24,6 +24,12 @@ public class HBValidatorConfig {
 		return new TopicsProperties();
 	}
 
+	/**
+	 * Create a new topic on startup if not exists.
+	 *
+	 * @see <a href="https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#configuring-topics">Spring
+	 * Kafka documentation</a>
+	 */
 	@Bean
 	NewTopic topicHeartBeatsValid(TopicsProperties topicsProperties) {
 		TopicsProperties.Topic t = topicsProperties.getTo().getValid();
@@ -42,6 +48,12 @@ public class HBValidatorConfig {
 						   .build();
 	}
 
+	/**
+	 * Using Spring KStream to stream heart beats into valid and invalid ones.
+	 *
+	 * @see <a href="https://docs.spring.io/spring-kafka/docs/2.3.7.RELEASE/reference/html/#kafka-streams-example">Spring
+	 * kafka streams example</a>
+	 */
 	@Bean
 	KStream<Long, HeartBeat> kStream(StreamsBuilder streamsBuilder, TopicsProperties topicsProperties) {
 		return HBValidatorStreamBuilder.withStreamsBuilder(streamsBuilder)

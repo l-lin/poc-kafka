@@ -13,6 +13,11 @@ import lin.louis.poc.models.HeartBeats;
 import lin.louis.poc.models.HeartRate;
 
 
+/**
+ * Computes {@link lin.louis.poc.models.HeartRate} from {@link lin.louis.poc.models.HeartBeats}.
+ *
+ * It is then injected into a Kafka topic.
+ */
 public class HRValueMapper implements ValueMapperWithKey<Long, HeartBeats, Iterable<HeartRate>> {
 
 	private final HRFactory hrFactory;
@@ -31,6 +36,8 @@ public class HRValueMapper implements ValueMapperWithKey<Long, HeartBeats, Itera
 	public Iterable<HeartRate> apply(Long userId, HeartBeats value) {
 		var heartRates = new ArrayList<HeartRate>();
 
+		// we only build the necessarily heartbeats, no need to work on already used heartbeats since we are not using
+		// TimeWindow to filter only the desired heartbeats
 		var heartBeats = HBInputBuilder.from(value.getHeartBeats())
 									   .withNbHeartBeats(nbHeartBeats)
 									   .withOffset(heartBeatOffset)

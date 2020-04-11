@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>heart-beat-producer</artifactId>
 	<name>heart-beat-producer</name>
-	<description>Heart beat producer</description>
+	<description>Service that registers heart beats into Kafka from a REST endpoint</description>
 
 	<dependencies>
 		<!-- SPRING -->
