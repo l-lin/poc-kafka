@@ -29,7 +29,7 @@ class HRFactoryTest {
 
 	private static final long USER_ID = 123L;
 
-	private HRFactory hrFactory = new HRFactory(
+	private final HRFactory hrFactory = new HRFactory(
 			8,
 			new ResetCheckerFacade(Arrays.asList(
 					new GapResetChecker(Duration.ofSeconds(5)),
