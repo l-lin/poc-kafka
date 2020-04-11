@@ -182,7 +182,7 @@ services:
       - heart-beat-producer
     command: [
       "--heart-beat-producer", "http://web:80/heart-beat-producer/heart-beats",
-      "--nb-users", "10",
+      "--nb-users", "400",
       "--percent-failures", "0,0,0,0,0,5,5,10,15,50"
     ]
   # HEART RATE CONSUMER ----------------------------------------------------------------------------

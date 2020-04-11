@@ -15,11 +15,17 @@ import lin.louis.poc.models.HeartRate;
 
 
 public class HRComputorStreamBuilder {
+
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+
 	private final StreamsBuilder streamsBuilder;
+
 	private String topicFrom;
+
 	private String topicTo;
+
 	private HRFactory hrFactory;
+
 	private int nbHeartBeats;
 
 	private HRComputorStreamBuilder(StreamsBuilder streamsBuilder) {this.streamsBuilder = streamsBuilder;}
@@ -54,6 +60,8 @@ public class HRComputorStreamBuilder {
 				.peek((userId, heartBeat) -> logger.debug("reading heart beat of user {}: {}", userId, heartBeat));
 
 		// KTable that will contain the aggregated heart beats
+		// I had to create a new HeartBeats Avro model, because Kafka does not know how to deserialize Iterable of
+		// Avro models...
 		// We could use a TimeWindow to fetch only current window, not every heart beats from this KTable
 		KTable<Long, HeartBeats> kTable = kStream
 				.groupByKey()
@@ -68,7 +76,7 @@ public class HRComputorStreamBuilder {
 				// mapping will not be performed directly, and there is a small time buffer before it performs the
 				// mapping, hence having weird behavior, like having too many heartbeats for a single heart rate, or
 				// having heart beats with offset timestamps...
-				.mapValues(new HRValueMapper(hrFactory, nbHeartBeats))
+				.flatMapValues(new HRValueMapper(hrFactory, nbHeartBeats))
 				.peek((userId, heartRate) -> logger.debug("heart rate computed for user {}: {}", userId, heartRate));
 		outKStream.to(topicTo);
 		return outKStream;
