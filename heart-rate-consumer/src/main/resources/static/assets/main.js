@@ -18,18 +18,18 @@ const appendOpt = (userId, select) => {
 }
 
 window.onload = () => {
-  const userIdsUrl = '/users/ids';
+  const userIdsUrl = '/users';
   const oReq = new XMLHttpRequest();
   oReq.addEventListener('load', function() {
     if (this.status !== 200) {
       console.error('Server did not return the user id. Response status was', this.status);
       return;
     }
-    const userIds = JSON.parse(this.responseText);
+    const users = JSON.parse(this.responseText);
     let userIdSelects = document.getElementsByName('userId');
-    for (let i = 0; i < userIds.length; i++) {
+    for (let i = 0; i < users.length; i++) {
       for (let j = 0; j < userIdSelects.length; j++) {
-        appendOpt(userIds[i], userIdSelects[j]);
+        appendOpt(users[i].userId, userIdSelects[j]);
       }
     }
   });

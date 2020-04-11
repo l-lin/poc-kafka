@@ -3,7 +3,6 @@ package lin.louis.poc.hrc.model;
 import java.time.Instant;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,7 +19,6 @@ public class HeartRateEntity {
 	@EmbeddedId
 	private HeartRateId heartRateId;
 
-	@Column
 	private long userId;
 
 	private double value;
