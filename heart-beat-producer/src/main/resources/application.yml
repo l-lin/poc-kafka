@@ -18,6 +18,8 @@ spring:
     banner-mode: OFF
 server:
   port: 8180
+  servlet:
+    context-path: /heart-beat-producer
 
 # application specific
 topic:

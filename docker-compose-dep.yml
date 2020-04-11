@@ -1,6 +1,6 @@
 # docker-compose file used to run services in single node, so the heart apps can be run directly from the IDE without problem
 version: '3'
-# from https://github.com/confluentinc/examples/blob/5.4.1-post/cp-all-in-one-community/docker-compose.yml
+# inspired from https://github.com/confluentinc/examples/blob/5.4.1-post/cp-all-in-one-community/docker-compose.yml
 services:
   # ZOOKEEPERS ------------------------------------------------------------------------------------
   zk:

@@ -3,7 +3,6 @@ services:
   # ZOOKEEPERS ------------------------------------------------------------------------------------
   zk1:
     image: confluentinc/cp-zookeeper:${CONFLUENT_TAG}
-    container_name: zk1
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -13,7 +12,6 @@ services:
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
   zk2:
     image: confluentinc/cp-zookeeper:${CONFLUENT_TAG}
-    container_name: zk2
     environment:
       ZOOKEEPER_SERVER_ID: 2
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -23,7 +21,6 @@ services:
       ZOOKEEPER_SERVERS: zk1:2888:3888;zk2:2888:3888;zk3:2888:3888
   zk3:
     image: confluentinc/cp-zookeeper:${CONFLUENT_TAG}
-    container_name: zk3
     environment:
       ZOOKEEPER_SERVER_ID: 3
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -34,7 +31,6 @@ services:
   # KAFKAS ----------------------------------------------------------------------------------------
   kafka1:
     image: confluentinc/cp-kafka:${CONFLUENT_TAG}
-    container_name: kafka1
     depends_on:
       - zk1
       - zk2
@@ -45,7 +41,6 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
   kafka2:
     image: confluentinc/cp-kafka:${CONFLUENT_TAG}
-    container_name: kafka2
     depends_on:
       - zk1
       - zk2
@@ -56,7 +51,6 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092
   kafka3:
     image: confluentinc/cp-kafka:${CONFLUENT_TAG}
-    container_name: kafka3
     depends_on:
       - zk1
       - zk2
@@ -68,7 +62,6 @@ services:
   # SCHEMA REGISTRY --------------------------------------------------------------------------------
   schema-registry:
     image: confluentinc/cp-schema-registry:${CONFLUENT_TAG}
-    container_name: schema-registry
     depends_on:
       - zk1
       - zk2
@@ -84,7 +77,6 @@ services:
   # POSTGRESQL ------------------------------------------------------------------------------------
   db:
     image: postgres:12.2-alpine
-    container_name: db
     healthcheck:
       test: psql postgres --command "SELECT 1" -U postgres
     ports:
@@ -96,7 +88,6 @@ services:
   # KAFKA CONNECT ----------------------------------------------------------------------------------
   heart-rate-connector:
     image: confluentinc/cp-kafka-connect:${CONFLUENT_TAG}
-    container_name: heart-rate-connector
     depends_on:
       - kafka1
       - kafka2
@@ -131,7 +122,6 @@ services:
   # LOADBALANCER ----------------------------------------------------------------------------------
   web:
     image: nginx:1.17.9-alpine
-    container_name: web
     depends_on:
       - heart-beat-producer
     ports:
@@ -144,7 +134,7 @@ services:
     depends_on:
       - schema-registry
     ports:
-      - "8180-8189:8180"
+      - "8180-8199:8180"
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
@@ -154,11 +144,10 @@ services:
   # HEART BEAT VALIDATOR ---------------------------------------------------------------------------
   heart-beat-validator:
     image: linlouis/heart-beat-validator
-    container_name: heart-beat-validator
     depends_on:
       - heart-beat-producer
     ports:
-      - 8280:8280
+      - "8280-8299:8280"
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
@@ -172,16 +161,16 @@ services:
   # HEART BEAT COMPUTOR ----------------------------------------------------------------------------
   heart-rate-computor:
     image: linlouis/heart-rate-computor
-    container_name: heart-rate-computor
     depends_on:
       - heart-beat-validator
     ports:
-      - 8380:8380
+      - "8380-8399:8380"
     command: [
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",
       "--spring.kafka.properties.schema.registry.url=http://schema-registry:8081",
       # "exactly-once" processing requires a cluster of at least three brokers by default
       "--spring.kafka.streams.properties.processing.guarantee=exactly_once",
+      "--spring.kafka.streams.replication-factor=3",
       "--topics.to.partitions=3",
       "--topics.to.replicas=3"
     ]
@@ -189,23 +178,21 @@ services:
   heart-smartwatch-simulator:
     build: ./heart-smartwatch-simulator
     image: linlouis/heart-smartwatch-simulator
-    container_name: heart-smartwatch-simulator
     depends_on:
       - heart-beat-producer
     command: [
-      "--heart-beat-producer", "http://web:80/heart-beats",
-      "--nb-users", "1000",
+      "--heart-beat-producer", "http://web:80/heart-beat-producer/heart-beats",
+      "--nb-users", "10",
       "--percent-failures", "0,0,0,0,0,5,5,10,15,50"
     ]
   # HEART RATE CONSUMER ----------------------------------------------------------------------------
   heart-rate-consumer:
     image: linlouis/heart-rate-consumer
-    container_name: heart-rate-consumer
     depends_on:
       - schema-registry
       - heart-rate-connector
     ports:
-      - 8480:8480
+      - "8480-8499:8480"
     command: [
       "--spring.datasource.url=jdbc:postgresql://db:5432/heart_monitor?applicationName=heart-rate-consumer",
       "--spring.kafka.bootstrap-servers=kafka1:9092,kafka2:9092,kafka3:9092",

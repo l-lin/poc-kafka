@@ -50,7 +50,7 @@ func init() {
 	rootCmd.Flags().IntVar(&hriMax, "hri-max", 250, "Max instant frequency of a heartbeat")
 	rootCmd.Flags().IntVar(&nbUsers, "nb-users", 5, "Number of users to simulate")
 	rootCmd.Flags().StringVar(&percentFailures, "percent-failures", "0,5,10,15,50", "Percentages of failure to set for the users, separated by a comma. The indexes match the user to set the percentage of failure")
-	rootCmd.Flags().StringVar(&heartBeatProducerURL, "heart-beat-producer", "http://localhost:8180/heart-beats", "URL of the heart-beat-producer service to send heart beats")
+	rootCmd.Flags().StringVar(&heartBeatProducerURL, "heart-beat-producer", "http://localhost:8180/heart-beat-producer/heart-beats", "URL of the heart-beat-producer service to send heart beats")
 	rootCmd.Flags().BoolVar(&debug, "debug", false, "Debug mode to display more logs")
 }
 

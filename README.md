@@ -17,7 +17,7 @@ __Production alike__
 
 ```bash
 # launch all services
-docker-compose up -d
+docker-compose up -d --scale heart-beat-producer=3 --scale heart-rate-computor=3
 # wait until all services are started then setup environment
 ./scripts/setup.sh
 ```
@@ -30,7 +30,7 @@ from IDE launched app. Thus, a `docker-compose-local.yml` file is here to launch
 
 ```bash
 # launch all services
-docker-compose -f docker-compose-local.yml up -d
+docker-compose -f docker-compose-dep.yml up -d
 # then use same commands as above
 ```
 
@@ -116,6 +116,8 @@ __Kafka__
 - [Exploring Kafka Streams](https://dev.to/itnext/learn-stream-processing-with-kafka-streams-stateless-operations-1k4h)
 - [Reactor Kafka](https://projectreactor.io/docs/kafka/release/reference/)
 - [Introduction to reactor Kafka](https://www.reactiveprogramming.be/an-introduction-to-reactor-kafka/)
+- [How to choose number of topic partition](https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/)
+- [Kafka replication explained](https://www.confluent.io/blog/hands-free-kafka-replication-a-lesson-in-operational-simplicity/)
 
 __Avro__
 
