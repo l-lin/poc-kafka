@@ -36,8 +36,8 @@ public class KafkaHRFluxRepository implements HRFluxRepository {
 				.<Long, HeartRate>create(consumerProperties)
 				.subscription(Collections.singletonList("heart-rates"))
 				// just for logging purpose
-				.addAssignListener(partitions -> logger.info("onPartitionsAssigned {}", partitions))
-				.addRevokeListener(partitions -> logger.info("onPartitionsRevoked {}", partitions));
+				.addAssignListener(partitions -> logger.debug("onPartitionsAssigned {}", partitions))
+				.addRevokeListener(partitions -> logger.debug("onPartitionsRevoked {}", partitions));
 		return KafkaReceiver.create(receiverOptions)
 							.receive()
 							.filter(r -> userId == r.key())

@@ -51,10 +51,10 @@ public class HRComputorStreamBuilder {
 	public KStream<Long, HeartRate> buildKStream() {
 		// read valid heart beats from kafka
 		KStream<Long, HeartBeat> kStream = streamsBuilder.<Long, HeartBeat>stream(topicFrom)
-				.peek((userId, heartBeat) -> logger.info("reading heart beat of user {}: {}", userId, heartBeat));
+				.peek((userId, heartBeat) -> logger.debug("reading heart beat of user {}: {}", userId, heartBeat));
 
 		// KTable that will contain the aggregated heart beats
-		// TODO: build TimeWindow to fetch only current window, not every heart beats from this KTable
+		// We could use a TimeWindow to fetch only current window, not every heart beats from this KTable
 		KTable<Long, HeartBeats> kTable = kStream
 				.groupByKey()
 				.aggregate(HeartBeats::new, HBAggregator.INSTANCE, Materialized.as("aggregated-heart-beats"));
@@ -69,7 +69,7 @@ public class HRComputorStreamBuilder {
 				// mapping, hence having weird behavior, like having too many heartbeats for a single heart rate, or
 				// having heart beats with offset timestamps...
 				.mapValues(new HRValueMapper(hrFactory, nbHeartBeats))
-				.peek((userId, heartRate) -> logger.info("heart rate computed for user {}: {}", userId, heartRate));
+				.peek((userId, heartRate) -> logger.debug("heart rate computed for user {}: {}", userId, heartRate));
 		outKStream.to(topicTo);
 		return outKStream;
 	}

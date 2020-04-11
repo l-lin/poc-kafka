@@ -23,7 +23,7 @@ public class HBKafkaProducer implements HBRepository {
 
 	@Override
 	public void save(HeartBeat heartBeat) {
-		logger.info(
+		logger.debug(
 				"Sending to kafka topic '{}' the following heart beat in key {}: {}",
 				topicName,
 				heartBeat.getUserId(),

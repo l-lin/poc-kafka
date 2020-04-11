@@ -17,7 +17,7 @@ public class HRFetcher {
 	public HRFetcher(HRFluxRepository hrFluxRepository) {this.hrFluxRepository = hrFluxRepository;}
 
 	public Flux<HeartRateDTO> fetch(long userId) {
-		logger.info("Reading heart rates in stream for user {}", userId);
+		logger.debug("Reading heart rates in stream for user {}", userId);
 		return hrFluxRepository.read(userId)
 							   .map(hr -> new HeartRateDTO(hr.getUserId(),
 													   hr.getValue(),
