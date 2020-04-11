@@ -37,7 +37,7 @@ public class HRRouter {
 		var seconds = Integer.parseInt(request.queryParam("lastNSeconds").orElse("60"));
 		var lastNSeconds = Instant.now().minus(seconds, ChronoUnit.SECONDS);
 
-		var hearRates = hrRepository.findByUserIdAndTimestampIsAfter(userId, lastNSeconds);
+		var hearRates = hrRepository.findByUserIdAndTimestampIsAfterOrderByTimestampDesc(userId, lastNSeconds);
 		var hearRatesDTO = hearRates.stream()
 									.map(hr -> new HeartRateDTO(
 											hr.getUserId(),
