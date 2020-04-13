@@ -55,6 +55,17 @@ public class HeartRateEntity {
 		this.value = value;
 	}
 
+	public HeartRateEntity() {
+	}
+
+	public HeartRateEntity(HeartRateId heartRateId, long userId, double value, Instant timestamp, boolean isReset) {
+		this.heartRateId = heartRateId;
+		this.userId = userId;
+		this.value = value;
+		this.timestamp = timestamp;
+		this.isReset = isReset;
+	}
+
 	public Instant getTimestamp() {
 		return timestamp;
 	}

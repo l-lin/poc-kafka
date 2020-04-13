@@ -1,7 +1,7 @@
 $(function() {
 	const totalPoints = 120;
 	const updateInterval = 1000;
-  const buildEventUrl = (userId) => '/heart-rates/' + userId + '/stream';
+  const buildEventUrl = (userId) => '/users/' + userId + '/heart-rates/stream';
 
   // GLOBAL VARIABLES :scream: --------------------------------------------------------------------
 	let data = [];

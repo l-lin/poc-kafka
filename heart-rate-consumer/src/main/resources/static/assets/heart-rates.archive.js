@@ -1,5 +1,5 @@
 $(function() {
-  const buildUrl = (userId, lastNSeconds) => '/heart-rates/' + userId + '?lastNSeconds=' + lastNSeconds;
+  const buildUrl = (userId, lastNSeconds) => '/users/' + userId + '/heart-rates?lastNSeconds=' + lastNSeconds;
   const getQueryParam = (queryParamName, defaultValue) => {
     let urlParams = new URLSearchParams(window.location.search);
     let queryParamValue = urlParams.get(queryParamName);

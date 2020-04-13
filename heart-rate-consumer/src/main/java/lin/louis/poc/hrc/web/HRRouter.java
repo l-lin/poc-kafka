@@ -27,7 +27,7 @@ public class HRRouter {
 	@Bean
 	RouterFunction<ServerResponse> hrRoute(HRRepository hrRepository) {
 		return route(
-				GET("/heart-rates/{userId}").and(accept(MediaType.APPLICATION_JSON)),
+				GET("/users/{userId}/heart-rates").and(accept(MediaType.APPLICATION_JSON)),
 				request -> heartRateHandler(request, hrRepository)
 		);
 	}
