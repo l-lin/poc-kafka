@@ -34,7 +34,7 @@ docker run -it --rm --name heart-rate-computor --net "${PWD##*/}_default" \
     --spring.kafka.properties.schema.registry.url=http://schema-registry:8081
 
 # observe the topic "heart-rates"
-docker exec -it schema-registry \
+docker exec -it "${PWD##*/}_schema-registry_1" \
     /usr/bin/kafka-avro-console-consumer \
     --bootstrap-server kafka:29092 \
     --topic heart-rates \

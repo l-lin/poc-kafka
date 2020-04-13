@@ -124,6 +124,7 @@ services:
     image: nginx:1.17.9-alpine
     depends_on:
       - heart-beat-producer
+      - heart-rate-consumer
     ports:
       - 80:80
     volumes:

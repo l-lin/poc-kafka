@@ -32,9 +32,9 @@ docker run -it --rm --name heart-beat-producer --net "${PWD##*/}_default" \
     --spring.kafka.properties.schema.registry.url=http://schema-registry:8081
 
 # observe the topic "heart-beats"
-docker exec -it schema-registry \
+docker exec -it "${PWD##*/}_schema-registry_1" \
     /usr/bin/kafka-avro-console-consumer \
-    --bootstrap-server kafka1:9092,kafka2:9092,kafka3:9092 \
+    --bootstrap-server kafka:29092 \
     --topic heart-beats \
     --from-beginning
 ```
