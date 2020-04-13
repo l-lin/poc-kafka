@@ -12,7 +12,6 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
-import org.apache.kafka.streams.kstream.WindowedSerdes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,12 +28,12 @@ import com.bakdata.fluent_kafka_streams_tests.junit5.TestTopologyExtension;
 import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import lin.louis.poc.hrc.factory.HRFactory;
-import lin.louis.poc.hrc.factory.valuecomputor.HRValueComputor;
 import lin.louis.poc.hrc.factory.reset.GapResetChecker;
 import lin.louis.poc.hrc.factory.reset.HriResetChecker;
 import lin.louis.poc.hrc.factory.reset.QRSResetChecker;
 import lin.louis.poc.hrc.factory.reset.ResetCheckerFacade;
 import lin.louis.poc.hrc.factory.reset.TimestampResetChecker;
+import lin.louis.poc.hrc.factory.valuecomputor.HRValueComputor;
 import lin.louis.poc.models.HeartBeat;
 import lin.louis.poc.models.HeartBeatQRS;
 import lin.louis.poc.models.HeartRate;
@@ -141,10 +140,6 @@ class HRComputorStreamBuilderTest {
 		properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "heart-rate-computor");
 		properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
 		properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.LongSerde.class.getName());
-		properties.put(
-				StreamsConfig.DEFAULT_WINDOWED_KEY_SERDE_INNER_CLASS,
-				WindowedSerdes.timeWindowedSerdeFrom(Long.class)
-		);
 		properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class.getName());
 		properties.put(AbstractKafkaAvroSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://dummy");
 		return properties;
